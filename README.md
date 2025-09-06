@@ -91,7 +91,7 @@ Really? Really? You're looking for a settings/config manager for your Python cod
 use `pip`. OK, cool. I'm happy to help, really:
 
 ```shell
-pip install cheap_settings
+pip install cheap-settings
 ```
 
 ## TBD - Features to be Added
