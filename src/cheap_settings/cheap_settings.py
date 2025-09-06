@@ -10,7 +10,25 @@ else:
     UnionType = None
 
 
-def _convert_value_to_type(value, to_type):
+def _parse_json(value: str, expected_type: type, setting_name: str):
+    """Parse a JSON string, raising a helpful error on failure."""
+    try:
+        parsed_value = json.loads(value)
+    except json.JSONDecodeError as e:
+        raise ValueError(
+            f"Invalid JSON in environment variable {setting_name.upper()} (expected {expected_type.__name__}): {e}. "
+            f'Ensure the value is valid JSON (e.g., ["item1", "item2"] for a list).'
+        ) from e
+
+    if not isinstance(parsed_value, expected_type):
+        raise ValueError(
+            f"Invalid JSON type in environment variable {setting_name.upper()}. "
+            f"Expected {expected_type.__name__}, but got {type(parsed_value).__name__}."
+        )
+    return parsed_value
+
+
+def _convert_value_to_type(value, to_type, name: str):
     """Convert a string value from environment to the specified type.
 
     Handles basic types (int, float, bool, str, list, dict) as well as
@@ -20,13 +38,13 @@ def _convert_value_to_type(value, to_type):
     Args:
         value: The value to convert (usually a string from os.environ)
         to_type: The type annotation to convert to
+        name: The name of the setting (for error messages)
 
     Returns:
         The converted value in the appropriate type
 
     Raises:
         ValueError: If the value cannot be converted to the specified type
-        json.JSONDecodeError: If JSON parsing fails for list/dict types
     """
     if value is None:
         return None
@@ -49,10 +67,9 @@ def _convert_value_to_type(value, to_type):
             if arg is type(None):  # Skip None type
                 continue
             try:
-                return _convert_value_to_type(value, arg)
-            except (ValueError, TypeError, json.JSONDecodeError):
-                # TODO: JSON error handling issue also affects Union types - when JSON parsing
-                # fails in a Union, we silently try the next type instead of providing helpful errors
+                return _convert_value_to_type(value, arg, name)
+            except (ValueError, TypeError):
+                # When JSON parsing fails in a Union, we silently try the next type
                 continue
         # If none worked, raise error
         raise ValueError(f"Could not convert '{value}' to any of {args}")
@@ -60,17 +77,9 @@ def _convert_value_to_type(value, to_type):
     # Handle generic types like list[str], dict[str, int]
     if origin is not None:
         if origin is list:
-            # TODO: Same JSON error handling issue as above - need better error messages
-            parsed_value = json.loads(value)
-            if not isinstance(parsed_value, list):
-                raise ValueError(f"{value} is not a list")
-            return parsed_value
+            return _parse_json(value, list, name)
         elif origin is dict:
-            # TODO: Same JSON error handling issue as above - need better error messages
-            parsed_value = json.loads(value)
-            if not isinstance(parsed_value, dict):
-                raise ValueError(f"{value} is not a dict")
-            return parsed_value
+            return _parse_json(value, dict, name)
 
     # Handle basic types
     # Check bool before int since bool is a subclass of int
@@ -89,29 +98,15 @@ def _convert_value_to_type(value, to_type):
     elif to_type is str:
         return value
     elif to_type is list:
-        # TODO: Improve JSON error handling - Currently JSON parsing errors bubble up
-        # as raw json.JSONDecodeError with technical messages like "Expecting ',' delimiter".
-        # Users would benefit from more helpful error messages that include:
-        # 1. Which environment variable caused the error
-        # 2. What type was expected (list/dict)
-        # 3. A hint about JSON format requirements
-        # Example: "Invalid JSON in environment variable ITEMS (expected list):
-        # Expecting ',' delimiter: line 1 column 5 (char 4). Ensure the value is valid JSON like [\"item1\", \"item2\"]"
-        parsed_value = json.loads(value)
-        if not isinstance(parsed_value, list):
-            raise ValueError(f"{value} is not a list")
-        return parsed_value
+        return _parse_json(value, list, name)
     elif to_type is dict:
-        parsed_value = json.loads(value)
-        if not isinstance(parsed_value, dict):
-            raise ValueError(f"{value} is not a dict")
-        return parsed_value
+        return _parse_json(value, dict, name)
 
     # If we get here, we don't know how to handle this type
     return value
 
 
-# TODO: Implement __delattr__ & __dir__
+# TODO: Implement __delattr__
 class MetaCheapSettings(type):
     """Metaclass that implements the settings behavior for CheapSettings.
 
@@ -162,12 +157,49 @@ class MetaCheapSettings(type):
         # 1. Distinguishing between settings attributes and other class members
         # 2. Updating __getattribute__ to handle both settings and regular class attributes
         # 3. Testing with classes that have methods, properties, class methods, static methods
-        keys_to_move = list(dct.keys())
+        keys_to_move = []
+        for key, value in dct.items():
+            # A setting is a class attribute that is not a dunder, not a callable,
+            # and not a descriptor like property, staticmethod, or classmethod.
+            if (
+                not key.startswith("__")
+                and not callable(value)
+                and not isinstance(value, (property, staticmethod, classmethod))
+            ):
+                keys_to_move.append(key)
+
         for key in keys_to_move:
-            if not key.startswith("__") and not key.endswith("__"):
-                setattr(config_instance, key, dct.pop(key))
+            setattr(config_instance, key, dct.pop(key))
         dct["__config_instance"] = config_instance
         return super().__new__(mcs, name, bases, dct)
+
+    def __dir__(cls):
+        """Provide a directory of settings, methods, and other attributes."""
+        # Start with the default directory, which includes methods, etc.
+        dir_set = set(super().__dir__())
+
+        # Add all defined settings from the class and its parents
+        mro = type.__getattribute__(cls, "__mro__")
+        for klass in mro:
+            if not hasattr(klass, "__config_instance"):
+                continue
+
+            try:
+                config_instance = object.__getattribute__(klass, "__config_instance")
+            except AttributeError:
+                continue
+
+            # Add attributes with initializers
+            for attr in config_instance.__dict__:
+                if not attr.startswith("__"):
+                    dir_set.add(attr)
+
+            # Add attributes with annotations (might not have initializers)
+            if hasattr(config_instance, "__annotations__"):
+                for attr in config_instance.__annotations__:
+                    dir_set.add(attr)
+
+        return sorted(list(dir_set))
 
     def __getattribute__(cls, attribute):
         """Get attribute value, checking environment variables first.
@@ -192,7 +224,10 @@ class MetaCheapSettings(type):
             except AttributeError:
                 continue
 
-            if hasattr(config_instance, attribute):
+            if (
+                hasattr(config_instance, attribute)
+                or attribute in config_instance.__annotations__
+            ):
                 env_attr = os.environ.get(attribute.upper())
                 if env_attr is not None:
                     # Check if we have annotations for this attribute
@@ -201,12 +236,15 @@ class MetaCheapSettings(type):
                         and attribute in config_instance.__annotations__
                     ):
                         return _convert_value_to_type(
-                            env_attr, config_instance.__annotations__[attribute]
+                            env_attr,
+                            config_instance.__annotations__[attribute],
+                            attribute,
                         )
                     else:
                         # No type annotation, return as string
                         return env_attr
-                return getattr(config_instance, attribute)
+                if hasattr(config_instance, attribute):
+                    return getattr(config_instance, attribute)
 
         # If not found in any config instance, use default behavior
         return type.__getattribute__(cls, attribute)

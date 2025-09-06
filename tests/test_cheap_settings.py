@@ -113,33 +113,41 @@ class TestBasicFunctionality:
         assert isinstance(MySettings.config, dict)
 
     def test_invalid_json(self, monkeypatch):
-        """Test that invalid JSON raises appropriate error"""
+        """Test that invalid JSON raises a helpful ValueError"""
 
         class MySettings(CheapSettings):
             items: list = []
 
         monkeypatch.setenv("ITEMS", "not valid json")
-        with pytest.raises(json.JSONDecodeError):
+        with pytest.raises(
+            ValueError, match=r"Invalid JSON in environment variable ITEMS"
+        ):
             _ = MySettings.items
 
     def test_wrong_json_type_list(self, monkeypatch):
-        """Test that providing dict JSON for list type raises error"""
+        """Test that providing dict JSON for list type raises a helpful ValueError"""
 
         class MySettings(CheapSettings):
             items: list = []
 
         monkeypatch.setenv("ITEMS", json.dumps({"key": "value"}))
-        with pytest.raises(ValueError, match="is not a list"):
+        with pytest.raises(
+            ValueError,
+            match=r"Invalid JSON type in environment variable ITEMS. Expected list, but got dict.",
+        ):
             _ = MySettings.items
 
     def test_wrong_json_type_dict(self, monkeypatch):
-        """Test that providing list JSON for dict type raises error"""
+        """Test that providing list JSON for dict type raises a helpful ValueError"""
 
         class MySettings(CheapSettings):
             config: dict = {}
 
         monkeypatch.setenv("CONFIG", json.dumps(["a", "b"]))
-        with pytest.raises(ValueError, match="is not a dict"):
+        with pytest.raises(
+            ValueError,
+            match=r"Invalid JSON type in environment variable CONFIG. Expected dict, but got list.",
+        ):
             _ = MySettings.config
 
     def test_attribute_error(self):
@@ -411,3 +419,189 @@ class TestOptionalAndUnionTypes:
         # Set to dict
         monkeypatch.setenv("LIMITS", '{"max_users": 100, "max_requests": 1000}')
         assert MySettings.limits == {"max_users": 100, "max_requests": 1000}
+
+
+class TestInheritanceAndMRO:
+    """Test inheritance and Method Resolution Order (MRO)"""
+
+    def test_simple_inheritance(self, monkeypatch):
+        """Test simple inheritance of settings"""
+
+        class BaseSettings(CheapSettings):
+            host: str = "localhost"
+            port: int = 8080
+
+        class AppSettings(BaseSettings):
+            debug: bool = False
+
+        assert AppSettings.host == "localhost"
+        assert AppSettings.port == 8080
+        assert AppSettings.debug is False
+
+        # Override from environment
+        monkeypatch.setenv("HOST", "example.com")
+        monkeypatch.setenv("PORT", "3000")
+        monkeypatch.setenv("DEBUG", "true")
+
+        assert AppSettings.host == "example.com"
+        assert AppSettings.port == 3000
+        assert AppSettings.debug is True
+
+    def test_override_in_subclass(self, monkeypatch):
+        """Test overriding default values in a subclass"""
+
+        class BaseSettings(CheapSettings):
+            host: str = "localhost"
+            port: int = 8080
+
+        class TestSettings(BaseSettings):
+            port: int = 9090  # Override default port
+
+        assert TestSettings.host == "localhost"
+        assert TestSettings.port == 9090
+
+        # Environment should still override everything
+        monkeypatch.setenv("PORT", "3000")
+        assert TestSettings.port == 3000
+
+    def test_multi_level_inheritance(self, monkeypatch):
+        """Test multiple levels of inheritance"""
+
+        class RootSettings(CheapSettings):
+            root_value: str = "root"
+
+        class MidSettings(RootSettings):
+            mid_value: str = "mid"
+
+        class LeafSettings(MidSettings):
+            leaf_value: str = "leaf"
+
+        assert LeafSettings.root_value == "root"
+        assert LeafSettings.mid_value == "mid"
+        assert LeafSettings.leaf_value == "leaf"
+
+        # Environment overrides
+        monkeypatch.setenv("ROOT_VALUE", "env_root")
+        monkeypatch.setenv("LEAF_VALUE", "env_leaf")
+
+        assert LeafSettings.root_value == "env_root"
+        assert LeafSettings.mid_value == "mid"
+        assert LeafSettings.leaf_value == "env_leaf"
+
+    def test_diamond_inheritance(self, monkeypatch):
+        """Test diamond inheritance pattern"""
+
+        class Base(CheapSettings):
+            value: str = "base"
+
+        class Left(Base):
+            value: str = "left"
+
+        class Right(Base):
+            value: str = "right"
+
+        class Bottom(Left, Right):
+            pass
+
+        # MRO: Bottom -> Left -> Right -> Base
+        assert Bottom.value == "left"
+
+        # Environment override
+        monkeypatch.setenv("VALUE", "env")
+        assert Bottom.value == "env"
+
+    def test_annotations_inheritance(self, monkeypatch):
+        """Test that type annotations are inherited correctly"""
+
+        class BaseSettings(CheapSettings):
+            port: int = 8080
+
+        class AppSettings(BaseSettings):
+            # No annotation here, should be inherited from BaseSettings
+            port = 9090
+
+        monkeypatch.setenv("PORT", "3000")
+        assert AppSettings.port == 3000
+        assert isinstance(AppSettings.port, int)
+
+
+class TestMethodsAndProperties:
+    """Test that methods and properties on settings classes are preserved."""
+
+    def test_methods_and_properties_are_preserved(self, monkeypatch):
+        """Test that methods and properties are not treated as settings."""
+
+        class MySettings(CheapSettings):
+            host: str = "localhost"
+            port: int = 8080
+
+            @property
+            def url(self):
+                """A property that would work on an instance."""
+                return f"http://{self.host}:{self.port}"
+
+            @staticmethod
+            def get_protocol() -> str:
+                return "http"
+
+            @classmethod
+            def get_host_and_port(cls) -> str:
+                return f"{cls.host}:{cls.port}"
+
+        # Test that settings still work
+        assert MySettings.host == "localhost"
+        assert MySettings.port == 8080
+
+        # Test that methods are preserved and callable
+        assert MySettings.get_protocol() == "http"
+        assert MySettings.get_host_and_port() == "localhost:8080"
+
+        # Test that the property object is preserved on the class
+        assert isinstance(MySettings.url, property)
+        assert isinstance(MySettings.__dict__["url"], property)
+
+        # Test that environment overrides still work for settings
+        monkeypatch.setenv("HOST", "example.com")
+        monkeypatch.setenv("PORT", "3000")
+
+        assert MySettings.host == "example.com"
+        assert MySettings.port == 3000
+        assert MySettings.get_host_and_port() == "example.com:3000"
+
+
+class TestDir:
+    """Test __dir__ functionality."""
+
+    def test_dir_includes_settings_and_methods(self):
+        """Test that dir() on a settings class returns settings and methods."""
+
+        class BaseSettings(CheapSettings):
+            base_setting: str = "base"
+            another_base_setting: int = 0
+
+        class MySettings(BaseSettings):
+            my_setting: int = 1
+            another_base_setting: int = 1  # Override
+
+            @classmethod
+            def my_method(cls):
+                pass
+
+        directory = dir(MySettings)
+
+        # Check for settings from current class and parent class
+        assert "my_setting" in directory
+        assert "base_setting" in directory
+        assert "another_base_setting" in directory
+
+        # Check for the method
+        assert "my_method" in directory
+
+        # Check for a standard dunder method
+        assert "__repr__" in directory
+
+        # Check that settings without initializers but with annotations are included
+        class SettingsWithAnnotation(CheapSettings):
+            no_initializer: str
+
+        assert "no_initializer" in dir(SettingsWithAnnotation)
