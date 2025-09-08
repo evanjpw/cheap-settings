@@ -1,5 +1,6 @@
 import argparse
-from typing import Optional
+import sys
+from typing import Optional, get_args, get_origin
 
 
 def _convert_to_argument_name(name: str) -> str:
@@ -58,7 +59,6 @@ def _get_arg_parser(
             argument_type = type(argument_default) or str
 
         # Handle Optional/Union types for argparse
-        from typing import get_args, get_origin
 
         origin = get_origin(argument_type)
         if origin is not None:
@@ -75,15 +75,13 @@ def _get_arg_parser(
             elif argument_default is False:
                 argument_action = "store_true"
             elif argument_default is True:
-                # TODO: This should probably be improved to handle a variety of names
                 argument_name = "no-" + argument_name
                 argument_action = "store_false"
             else:
-                ...
-                # TODO: Should we `raise` here? Should we do something different from that? Same as `None`?
+                argument_type = _bool_str_to_bool
         elif argument_type in (dict, list):
-            # TODO: Eventually, handle these. For now, we should document that we don't handle them & they are _NOT_
-            #  added as command lNe arguments.
+            # TODO: Add support for dict and list types from the command line.
+            #  This will likely involve parsing JSON strings.
             continue
 
         argument_name = "--" + argument_name
@@ -115,12 +113,6 @@ def _incorporate_parsed_arguments(
     As designed, command line args will always override environment variables."""
     # Get annotations directly from the config instance
     annotations = getattr(config_instance, "__annotations__", {})
-    # Create the cli config annotations dict if not already present
-    if not hasattr(cli_config_instance, "__annotations__"):
-        cli_config_instance.__annotations__ = {}
-
-    # Convert provided args to a string for checking
-    args_str = " ".join(provided_args) if provided_args else ""
 
     for name, value in vars(args).items():
         if hasattr(config_instance, name) or name in annotations:
@@ -129,11 +121,8 @@ def _incorporate_parsed_arguments(
             no_arg_name = "--no-" + _convert_to_argument_name(name)
 
             # Only set if the argument was explicitly provided
-            if arg_name in args_str or no_arg_name in args_str:
+            if arg_name in provided_args or no_arg_name in provided_args:
                 setattr(cli_config_instance, name, value)
-                # TODO: The Python documentation says that one should not do this, ever
-                if name in annotations:
-                    cli_config_instance.__annotations__[name] = annotations[name]
 
 
 def parse_command_line_arguments(
@@ -151,7 +140,6 @@ def parse_command_line_arguments(
         parser: Optional custom ArgumentParser
         args: Optional list of arguments to parse (if None, uses sys.argv)
     """
-    import sys
 
     parser = _get_arg_parser(config_instance, parser)
     parsed_args = parser.parse_args(args)

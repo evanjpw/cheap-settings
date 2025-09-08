@@ -1,4 +1,3 @@
-# import copy
 import json
 import os
 import sys
@@ -220,13 +219,15 @@ class MetaCheapSettings(type):
 
         # Check each class in the MRO for the attribute
         mro = type.__getattribute__(cls, "__mro__")
-        cli_config_instance = None
-        for klass in mro:
-            # TODO: This will not work correctly if the cli config instance is lower down in the hierarchy than the
-            #  main config instance. Can that actually happen?
-            if not cli_config_instance:
-                cli_config_instance = MetaCheapSettings._get_cli_config_instance(klass)
 
+        # First, check for the attribute in any command line config instance in the MRO
+        for klass in mro:
+            cli_config_instance = MetaCheapSettings._get_cli_config_instance(klass)
+            if cli_config_instance and hasattr(cli_config_instance, attribute):
+                return getattr(cli_config_instance, attribute)
+
+        # If not found in CLI configs, check environment variables and default values
+        for klass in mro:
             if not hasattr(klass, "__config_instance"):
                 continue
 
@@ -234,10 +235,6 @@ class MetaCheapSettings(type):
                 config_instance = object.__getattribute__(klass, "__config_instance")
             except AttributeError:
                 continue
-
-            # Try the command line arguments first
-            if cli_config_instance and hasattr(cli_config_instance, attribute):
-                return getattr(cli_config_instance, attribute)
 
             if (
                 hasattr(config_instance, attribute)

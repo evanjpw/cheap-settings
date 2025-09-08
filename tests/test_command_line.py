@@ -109,21 +109,38 @@ class TestCommandLineTypes:
         assert MySettings.production is False
         assert MySettings.secure is False
 
-    def test_boolean_with_value(self):
-        """Test boolean with explicit string value"""
+    def test_boolean_with_value_true(self):
+        """Test boolean with explicit 'true' value"""
 
         class MySettings(CheapSettings):
             debug: Optional[bool] = None
 
-        # Test various boolean string values
         MySettings.set_config_from_command_line(args=["--debug", "true"])
         assert MySettings.debug is True
+
+    def test_boolean_with_value_false(self):
+        """Test boolean with explicit 'false' value"""
+
+        class MySettings(CheapSettings):
+            debug: Optional[bool] = None
 
         MySettings.set_config_from_command_line(args=["--debug", "false"])
         assert MySettings.debug is False
 
+    def test_boolean_with_value_1(self):
+        """Test boolean with explicit '1' value"""
+
+        class MySettings(CheapSettings):
+            debug: Optional[bool] = None
+
         MySettings.set_config_from_command_line(args=["--debug", "1"])
         assert MySettings.debug is True
+
+    def test_boolean_with_value_yes(self):
+        """Test boolean with explicit 'yes' value"""
+
+        class MySettings(CheapSettings):
+            debug: Optional[bool] = None
 
         MySettings.set_config_from_command_line(args=["--debug", "yes"])
         assert MySettings.debug is True
@@ -486,3 +503,19 @@ class TestUnhandledTypes:
 
         assert MySettings.api_key == "secret"
         assert MySettings.timeout == 30
+
+
+class TestCommandLineArgumentParsing:
+    """Test argument parsing logic"""
+
+    def test_partial_argument_name_matching(self):
+        """Test that arguments are not matched by partial names"""
+
+        class MySettings(CheapSettings):
+            port: int = 1234
+            port_number: int = 5678
+
+        MySettings.set_config_from_command_line(args=["--port-number", "8765"])
+
+        assert MySettings.port_number == 8765
+        assert MySettings.port == 1234
