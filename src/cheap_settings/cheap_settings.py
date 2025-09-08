@@ -1,7 +1,10 @@
+# import copy
 import json
 import os
 import sys
 from typing import Union, get_args, get_origin
+
+from .command_line import _bool_str_to_bool, parse_command_line_arguments
 
 # Python 3.10+ has types.UnionType for the | syntax
 if sys.version_info >= (3, 10):
@@ -84,13 +87,7 @@ def _convert_value_to_type(value, to_type, name: str):
     # Handle basic types
     # Check bool before int since bool is a subclass of int
     if to_type is bool:
-        normalized_value = value.lower()
-        if normalized_value in ("true", "1", "yes", "on"):
-            return True
-        elif normalized_value in ("false", "0", "no", "off"):
-            return False
-        else:
-            raise ValueError(f"{value} is not a valid boolean value")
+        return _bool_str_to_bool(value)
     elif to_type is int:
         return int(value)
     elif to_type is float:
@@ -160,7 +157,7 @@ class MetaCheapSettings(type):
         keys_to_move = []
         for key, value in dct.items():
             # A setting is a class attribute that is not a dunder, not a callable,
-            # and not a descriptor like property, staticmethod, or classmethod.
+            # and not a descriptor like property, static method, or class method.
             if (
                 not key.startswith("__")
                 and not callable(value)
@@ -201,6 +198,14 @@ class MetaCheapSettings(type):
 
         return sorted(list(dir_set))
 
+    @staticmethod
+    def _get_cli_config_instance(klass):
+        """Return the command line argument config instance, if present, or `None` if it is not."""
+        try:
+            return object.__getattribute__(klass, "__cli_config_instance")
+        except AttributeError:
+            return None
+
     def __getattribute__(cls, attribute):
         """Get attribute value, checking environment variables first.
 
@@ -215,7 +220,13 @@ class MetaCheapSettings(type):
 
         # Check each class in the MRO for the attribute
         mro = type.__getattribute__(cls, "__mro__")
+        cli_config_instance = None
         for klass in mro:
+            # TODO: This will not work correctly if the cli config instance is lower down in the hierarchy than the
+            #  main config instance. Can that actually happen?
+            if not cli_config_instance:
+                cli_config_instance = MetaCheapSettings._get_cli_config_instance(klass)
+
             if not hasattr(klass, "__config_instance"):
                 continue
 
@@ -223,6 +234,10 @@ class MetaCheapSettings(type):
                 config_instance = object.__getattribute__(klass, "__config_instance")
             except AttributeError:
                 continue
+
+            # Try the command line arguments first
+            if cli_config_instance and hasattr(cli_config_instance, attribute):
+                return getattr(cli_config_instance, attribute)
 
             if (
                 hasattr(config_instance, attribute)
@@ -273,3 +288,33 @@ class CheapSettings(metaclass=MetaCheapSettings):
     Supports all basic Python types plus Optional and Union types.
     Complex types (list, dict) are parsed from JSON strings.
     """
+
+    @classmethod
+    def set_config_from_command_line(cls, arg_parser=None, args=None):
+        """Creates command line arguments (as flags) that correspond to the settings, & parses them, setting the
+        config values based on them. Settings overridden by command line arguments take precedence over any
+        default variables, & over environment variables. Currently, settings of `dict` & `list` types are ignored,
+        & no command line arguments are added for them. It can optionally take an instance of argparse.ArgumentParser
+        that can be used to pre-configure your own command line arguments. The optional `args` parameter allows
+        passing specific arguments for testing (if None, uses sys.argv). Returns the parsed arguments (an
+        instance of argparse.Namespace). Can raise various exceptions."""
+
+        # Create a second config instance specifically for command line arguments. This adds a new class attribute
+        # called `__cli_config_instance`, & adds any command line arguments that correspond to the attributes of
+        # `__config_instance`. It also copies any type annotations for the copied attributes.
+        try:
+            config_instance = object.__getattribute__(cls, "__config_instance")
+        except AttributeError:
+            raise AttributeError("Config instance has not been set.")
+
+        if config_instance is None:
+            raise AttributeError("Config instance has not been set.")
+
+        cli_config_instance = MetaCheapSettings.ConfigInstance()
+        parsed_args = parse_command_line_arguments(
+            config_instance, cli_config_instance, arg_parser, args
+        )
+        # Use type.__setattr__ to set attribute on the class
+        type.__setattr__(cls, "__cli_config_instance", cli_config_instance)
+
+        return parsed_args

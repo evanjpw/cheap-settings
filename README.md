@@ -15,7 +15,8 @@ is defined in the code or in the environment.
 ## OK, How Does it Actually Work?
 
 Define your settings class as a subclass of `CheapSettings`. Add your settings values to your class as class attributes.
-Add type hints so `cheap_settings` knows how to convert values. Add initializers for your def values of the settings.
+Add type hints so `cheap_settings` knows how to convert values. Add initializers for your default values of the
+settings.
 
 At runtime, `cheap_settings` will read any environment variable with the same name as your attributes, *and override
 the attribute value, automatically converting to the correct type (even for Optional types)*.
@@ -24,6 +25,10 @@ Then, from anywhere in your code, you can use `MySettings.MY_VALUE`.
 
 It intentionally doesn't allow you to access environment variables that don't have a corresponding attribute assigned in
 your settings class, because you want to know if you are not using the correct setting name.
+
+It also provides the option of overriding the config settings with command line arguments. If you like, it can add
+arguments that correspond to your settings, & parse them. If you do that, the command line values override the
+initializer values _and_ the environment variables.
 
 That's it. That's what it does (& nothing else).
 
@@ -85,14 +90,88 @@ class TestSettings(BaseSettings):
     debug: bool = True  # Inherits host and port from BaseSettings
 ```
 
+To use command line arguments:
+
+```python
+# After defining MySettings...
+TestSettings.set_config_from_command_line()
+
+# You can also pass an instance of `argparse.ArgumentParser` to define your own command line arguments.
+# `set_config_from_command_line` will return the result from `parse_args`.
+
+# Now you can run: python myapp.py --host example.com --port 3000 --debug
+assert TestSettings.host == "example.com"  # CLI overrides env vars and defaults
+```
+
+## Why would I want this?
+
+> _You keep using the word "simple". What do you mean by that, & why should I care about it?
+
+Maybe you don't. Maybe you will not want this & don't really care about simplicity.
+
+However, I'll explain what I mean, & why _I_ cared sufficiently to write this.
+
+When I'm writing a new library/package/application/service, I'll quite often eventually need some kind of setting for
+something. Maybe it's a retry timeout. Maybe it's a buffer size, or a number of threads. Maybe it's a connection string.
+
+What do you do with it? You could code it inline, but that tends to be a source of regret. You could make it a constant
+at the top of the file, but that becomes a slightly later source of regret.
+
+So, you need some kind of configuration or settings. Historically, people made a `settings.py` file that was just a
+python module & wrote them in there, which works, but has its own set of issues. Also, if you want to override these
+settings, now you have to manually code it, which can become very unpleasant & lead to a messy pile of code.
+
+Now what? You could put your config in a config file! What format? Whatever. However, now you are dragging the config
+file around, & maybe you need to `.gitignore` your config file(s), & now you will need a `config.whatever.example` file
+that you need to keep in sync with your settings (& you also need to keep your various config files in sync).
+
+What if the code can't find your config file? Does it stop? Does it have reasonable default values? Where do you keep
+those?
+
+How do you deploy the config file? How do you keep it & your code together?
+
+What do you do about those environment variables, & command line options?
+
+Maybe you have decided to use a package. That's excellent. There are many options. This one, for example.
+
+Typically, you have to setup the config. Maybe it's manual, or maybe it just works. But now you have a config object.
+How do you get it to the place that you need it? Do you pass it through function arguments? Make it an attribute on your
+object(s)? Make a global instance? Why am I managing this thing? Why am I doing all of this plumbing? Why do I now
+have `config.get("setting_name", "default-value-that-I-was-trying-to-avoid")` or
+`getattr(config, "thing_that_should_always_be_there", "but-what-if-it-isn't")`?
+
+Why is this difficult? It shouldn't be difficult. I'm trying to do a thing, not configure something.
+
+That happened to me a lot. In response, I wrote this.
+
+You make a class, which is a subclass of `CheapSettings`. You add the annoying values as attributes, right on the class
+definition. Put it in some file called `config.py` or something. You need to use the setting somewhere in your code?
+`from config import MyConfig`. Then you can say `MyConfig.some_setting`. Done. You need to set it with an environment
+variable or a command line option? Already done. For the command line parsing, add
+`MySettings.set_config_from_command_line()` (you can ignore the return value). How do you deploy? However you want, your
+settings will follow you.
+
+You are trying to do a thing. Do the thing. Don't spend any time configuring the thing.
+
+That is why, maybe, you want this.
+
 ## Installation
 
-Really? Really? You're looking for a settings/config manager for your Python code, & you want me to tell you how to
-use `pip`. OK, cool. I'm happy to help, really:
+I'm having PyPi issues (which are, I must admit, my own fault). Until they are resolved, you will have to use:
 
 ```shell
-pip install cheap-settings
+pip install git+https://github.com/evanjpw/cheap-settings.git
 ```
+
+We apologize for any inconvenience.
+
+~~Really? Really? You're looking for a settings/config manager for your Python code, & you want me to tell you how to
+use `pip`. OK, cool. I'm happy to help, really:~~
+<!--
+```shell
+```
+-->
+~~pip install cheap-settings~~
 
 ## TBD - Features to be Added
 
