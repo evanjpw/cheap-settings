@@ -7,9 +7,6 @@ authors =[
     {name = "Evan Williams", email = "evanjpw@gmail.com"}
 ]
 requires-python = ">=3.8"
-repository = "https://github.com/evanjpw/cheap-settings/"
-# changelog = "https://github.com/evanjpw/cheap-settings/blob/master/CHANGELOG.md"
-changelog = ""
 license = "MIT"
 keywords = [
     "config",
@@ -39,11 +36,20 @@ classifiers = [
 ]
 dependencies = []
 
+[project.urls]
+# homepage = "https://"
+# documentation = ""
+repository = "https://github.com/evanjpw/cheap-settings"
+# TODO: add a changelog
+# changelog = "https://github.com/evanjpw/cheap-settings/blob/master/CHANGELOG.md"
+issues = "https://github.com/evanjpw/cheap-settings/issues"
+
 [project.optional-dependencies]
 dev = [
     "pytest>=7.0.0",
     "pytest-cov>=4.0.0",
 ]
+
 
 [build-system]
 requires = ["hatchling"]
