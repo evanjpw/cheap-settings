@@ -146,7 +146,7 @@ That happened to me a lot. In response, I wrote this.
 
 You make a class, which is a subclass of `CheapSettings`. You add the annoying values as attributes, right on the class
 definition. Put it in some file called `config.py` or something. You need to use the setting somewhere in your code?
-`from config import MyConfig`. Then you can say `MyConfig.some_setting`. Done. You need to set it with an environment
+`from .config import MyConfig` (or whatever import path makes sense in your project). Then you can say `MyConfig.some_setting`. Done. You need to set it with an environment
 variable or a command line option? Already done. For the command line parsing, add
 `MySettings.set_config_from_command_line()` (you can ignore the return value). How do you deploy? However you want, your
 settings will follow you.
