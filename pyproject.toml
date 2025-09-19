@@ -1,6 +1,6 @@
 [project]
 name = "cheap-settings"
-version = "0.1.0"
+version = "0.1.1"
 description = "A lightweight, low footprint settings system"
 readme = "README.md"
 authors =[
@@ -35,6 +35,7 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
 ]
 dependencies = []
 

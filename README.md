@@ -105,7 +105,7 @@ assert TestSettings.host == "example.com"  # CLI overrides env vars and defaults
 
 ## Why would I want this?
 
-> _You keep using the word "simple". What do you mean by that, & why should I care about it?
+> _You keep using the word "simple". What do you mean by that, & why should I care about it?_
 
 Maybe you don't. Maybe you will not want this & don't really care about simplicity.
 
@@ -157,21 +157,22 @@ That is why, maybe, you want this.
 
 ## Installation
 
-I'm having PyPi issues (which are, I must admit, my own fault). Until they are resolved, you will have to use:
+<!--
+~~I'm having PyPi issues (which are, I must admit, my own fault). Until they are resolved, you will have to use:~~
 
 ```shell
 pip install git+https://github.com/evanjpw/cheap-settings.git
 ```
 
-We apologize for any inconvenience.
-
-~~Really? Really? You're looking for a settings/config manager for your Python code, & you want me to tell you how to
-use `pip`. OK, cool. I'm happy to help, really:~~
-<!--
-```shell
-```
+~~We apologize for any inconvenience.~~
 -->
-~~pip install cheap-settings~~
+
+Really? Really? You're looking for a settings/config manager for your Python code, & you want me to tell you how to
+use `pip`. OK, cool. I'm happy to help, really:
+
+```shell
+pip install cheap-settings
+```
 
 ## TBD - Features to be Added
 
