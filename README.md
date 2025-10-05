@@ -103,6 +103,24 @@ TestSettings.set_config_from_command_line()
 assert TestSettings.host == "example.com"  # CLI overrides env vars and defaults
 ```
 
+**User Request**: Pickling
+
+A user asked for `cheap-settings` to support pickling (because [ray](https://github.com/ray-project/ray)). Done! You can
+now pickle & unpickle classes derived from `CheapSettings`.
+
+```python
+import pickle
+
+# Pickle and unpickle the class
+pickled = pickle.dumps(TestSettings)
+unpickled_class = pickle.loads(pickled)
+
+# Verify the class works after unpickling by comparing to the original
+assert unpickled_class.host == TestSettings.host
+assert unpickled_class.port == TestSettings.port
+assert unpickled_class.debug == TestSettings.debug
+```
+
 ## Why would I want this?
 
 > _You keep using the word "simple". What do you mean by that, & why should I care about it?_

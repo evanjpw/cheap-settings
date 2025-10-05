@@ -2,6 +2,7 @@ import json
 import os
 import sys
 from typing import Union, get_args, get_origin
+import importlib
 
 from .command_line import _bool_str_to_bool, parse_command_line_arguments
 
@@ -10,6 +11,19 @@ if sys.version_info >= (3, 10):
     from types import UnionType
 else:
     UnionType = None
+
+
+def _reconstruct_settings_instance(module_name, class_name):
+    """Helper function to reconstruct a CheapSettings instance when unpickling."""
+    module = importlib.import_module(module_name)
+    cls = getattr(module, class_name)
+    return cls()
+
+
+def _reconstruct_settings_class(module_name, class_name, config_data, annotations):
+    """Helper function to reconstruct a CheapSettings class when unpickling."""
+    module = importlib.import_module(module_name)
+    return getattr(module, class_name)
 
 
 def _parse_json(value: str, expected_type: type, setting_name: str):
@@ -122,6 +136,9 @@ class MetaCheapSettings(type):
         to a ConfigInstance, preserving inheritance of settings from parent classes.
         Type annotations are collected from the class and its parents.
         """
+        # Preserve the original module for pickle compatibility
+        original_module = dct.get('__module__')
+
         config_instance = mcs.ConfigInstance()
 
         # Collect annotations from parent classes
@@ -167,7 +184,17 @@ class MetaCheapSettings(type):
         for key in keys_to_move:
             setattr(config_instance, key, dct.pop(key))
         dct["__config_instance"] = config_instance
-        return super().__new__(mcs, name, bases, dct)
+
+        # Create the class
+        cls = super().__new__(mcs, name, bases, dct)
+
+        # Restore the original __module__ for pickle compatibility
+        # The metaclass machinery might have changed it, but we need to keep
+        # the original module where the class was actually defined
+        if original_module:
+            cls.__module__ = original_module
+
+        return cls
 
     def __dir__(cls):
         """Provide a directory of settings, methods, and other attributes."""
@@ -268,6 +295,37 @@ class MetaCheapSettings(type):
             config_instance = object.__getattribute__(cls, "__config_instance")
             setattr(config_instance, attribute, value)
 
+    def __reduce__(cls):
+        """Enable pickling of the class itself."""
+        # For pickling, we need to return a way to reconstruct this class
+        # Since the class is defined in user code, we return the class directly
+        # if it can be imported from its module
+        try:
+            # Try to import the class from its module
+            module = importlib.import_module(cls.__module__)
+            if hasattr(module, cls.__name__):
+                # Class can be imported normally
+                return (getattr, (module, cls.__name__))
+        except:
+            pass
+
+        # If we can't import it normally, we need to reconstruct it
+        config_instance = object.__getattribute__(cls, "__config_instance")
+        config_data = {}
+        annotations = {}
+
+        if hasattr(config_instance, "__annotations__"):
+            annotations = config_instance.__annotations__.copy()
+
+        for attr in dir(config_instance):
+            if not attr.startswith("__"):
+                config_data[attr] = getattr(config_instance, attr)
+
+        return (
+            _reconstruct_settings_class,
+            (cls.__module__, cls.__name__, config_data, annotations)
+        )
+
 
 class CheapSettings(metaclass=MetaCheapSettings):
     """Base class for simple, environment-variable-driven configuration.
@@ -285,6 +343,46 @@ class CheapSettings(metaclass=MetaCheapSettings):
     Supports all basic Python types plus Optional and Union types.
     Complex types (list, dict) are parsed from JSON strings.
     """
+
+    def __getattribute__(self, name):
+        """Allow instances to access class-level settings."""
+        # First try regular instance attribute access
+        try:
+            return object.__getattribute__(self, name)
+        except AttributeError:
+            # Fall back to class-level attribute access
+            # This allows instances to access settings defined at the class level
+            return getattr(type(self), name)
+
+    def __reduce__(self):
+        """Enable pickling by returning class and state information."""
+        # Try to return the class directly if it can be imported
+        try:
+            module = importlib.import_module(self.__class__.__module__)
+            if hasattr(module, self.__class__.__name__):
+                cls = getattr(module, self.__class__.__name__)
+                return (cls, (), self.__getstate__())
+        except:
+            pass
+
+        # Fallback to reconstruction
+        return (
+            _reconstruct_settings_instance,
+            (self.__class__.__module__, self.__class__.__name__),
+            self.__getstate__()
+        )
+
+    def __getstate__(self):
+        """Get the state for pickling - returns a dict of all settings."""
+        # For CheapSettings, we don't actually have instance state
+        # All settings are class-level, so we just return an empty dict
+        return {}
+
+    def __setstate__(self, state):
+        """Restore state when unpickling."""
+        # Nothing to restore for CheapSettings instances
+        # All settings are accessed from the class level
+        pass
 
     @classmethod
     def set_config_from_command_line(cls, arg_parser=None, args=None):
