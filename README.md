@@ -2,6 +2,11 @@
 
 _A lightweight, low footprint settings system_
 
+  [![PyPI version](https://img.shields.io/pypi/v/cheap-settings.svg)](https://pypi.org/project/cheap-settings/)
+  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+  [![Python Versions](https://img.shields.io/pypi/pyversions/cheap-settings.svg)](https://pypi.org/project/cheap-settings/)
+  [![Downloads](https://pepy.tech/badge/cheap-settings)](https://pepy.tech/project/cheap-settings)
+
 `cheap-settings` is a Python package for providing a very simple, very low impact, configuration. The Python
 configuration & settings landscape is virtually overflowing with clever, advanced, flexible solutions that cover
 many needs. However, what _I_ needed was a bit different from any config/settings package that I was aware of.
