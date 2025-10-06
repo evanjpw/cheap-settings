@@ -52,6 +52,11 @@ dev = [
     "isort>=5.13.2"  # The latest version that supports Python 3.8 is 5.13.2
 ]
 
+[tool.hatch.build]
+exclude = [
+    "/.save",
+    "/temporary_test_scripts",
+]
 
 [build-system]
 requires = ["hatchling"]
