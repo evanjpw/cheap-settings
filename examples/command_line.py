@@ -32,14 +32,14 @@ def main():
 
     # Set an environment variable to show precedence
     os.environ["PORT"] = "9000"
-    print(f"\nAfter setting PORT=9000 in environment:")
+    print("\nAfter setting PORT=9000 in environment:")
     print(f"  Port: {ServerConfig.port}")
 
     # Parse command line arguments
     # This automatically creates flags like --host, --port, --workers, etc.
-    args = ServerConfig.set_config_from_command_line()
+    _args = ServerConfig.set_config_from_command_line()
 
-    print(f"\nAfter parsing command line arguments:")
+    print("\nAfter parsing command line arguments:")
     print(f"  Host: {ServerConfig.host}")
     print(f"  Port: {ServerConfig.port}")
     print(f"  Workers: {ServerConfig.workers}")

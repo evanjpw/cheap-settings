@@ -1,7 +1,5 @@
 import argparse
-import os
-import sys
-from typing import Dict, List, Optional
+from typing import Optional
 
 import pytest
 
@@ -215,7 +213,9 @@ class TestCommandLineTypes:
             config: dict = {}
 
         # Parser shouldn't have --servers or --config options
-        result = MySettings.set_config_from_command_line(args=["--host", "example.com"])
+        _result = MySettings.set_config_from_command_line(
+            args=["--host", "example.com"]
+        )
 
         assert MySettings.host == "example.com"
         # These should still have default values

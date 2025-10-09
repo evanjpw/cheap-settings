@@ -20,7 +20,7 @@ def _reconstruct_settings_instance(module_name, class_name):
     return cls()
 
 
-def _reconstruct_settings_class(module_name, class_name, config_data, annotations):
+def _reconstruct_settings_class(module_name, class_name, _config_data, _annotations):
     """Helper function to reconstruct a CheapSettings class when unpickling."""
     module = importlib.import_module(module_name)
     return getattr(module, class_name)
@@ -302,11 +302,12 @@ class MetaCheapSettings(type):
         # if it can be imported from its module
         try:
             # Try to import the class from its module
+            # TODO: Does this raise anything?
             module = importlib.import_module(cls.__module__)
             if hasattr(module, cls.__name__):
                 # Class can be imported normally
-                return (getattr, (module, cls.__name__))
-        except:
+                return getattr, (module, cls.__name__)
+        except AttributeError:
             pass
 
         # If we can't import it normally, we need to reconstruct it
@@ -358,11 +359,12 @@ class CheapSettings(metaclass=MetaCheapSettings):
         """Enable pickling by returning class and state information."""
         # Try to return the class directly if it can be imported
         try:
+            # TODO: Does this raise anything?
             module = importlib.import_module(self.__class__.__module__)
             if hasattr(module, self.__class__.__name__):
                 cls = getattr(module, self.__class__.__name__)
-                return (cls, (), self.__getstate__())
-        except:
+                return cls, (), self.__getstate__()
+        except AttributeError:
             pass
 
         # Fallback to reconstruction

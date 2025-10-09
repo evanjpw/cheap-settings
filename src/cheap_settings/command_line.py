@@ -69,7 +69,7 @@ def _get_arg_parser(
                     argument_type = arg
                     break
 
-        if argument_type == bool:
+        if argument_type is bool:
             if argument_default is None:
                 argument_type = _bool_str_to_bool
             elif argument_default is False:

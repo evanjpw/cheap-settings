@@ -20,7 +20,7 @@ class DynamicSettings(CheapSettings):
     debug: bool = False
 
 
-def measure_access_time(settings_class, name, iterations=100000):
+def measure_access_time(settings_class, _name, iterations=100000):
     """Measure time to access a setting many times."""
     start = time.perf_counter()
     for _ in range(iterations):

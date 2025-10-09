@@ -246,7 +246,7 @@ class TestEdgeCases:
         assert MySettings.value == "  spaces  "
 
     def test_case_sensitive_attributes(self, monkeypatch):
-        """Test that attribute names are case sensitive but env vars are not"""
+        """Test that attribute names are case-sensitive but env vars are not"""
 
         class MySettings(CheapSettings):
             myValue: str = "default"
@@ -328,7 +328,7 @@ class TestOptionalAndUnionTypes:
         monkeypatch.setenv("TIMEOUT", "none")
         assert MySettings.timeout is None
 
-        # Case insensitive "none"
+        # Case-insensitive "none"
         monkeypatch.setenv("TIMEOUT", "NONE")
         assert MySettings.timeout is None
 

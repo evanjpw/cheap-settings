@@ -1,9 +1,6 @@
 """Test the to_static() functionality for CheapSettings."""
 
 import os
-import pickle
-
-import pytest
 
 from cheap_settings import CheapSettings
 
