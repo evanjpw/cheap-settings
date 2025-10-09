@@ -385,6 +385,56 @@ class CheapSettings(metaclass=MetaCheapSettings):
         pass
 
     @classmethod
+    def to_static(cls):
+        """Create a static snapshot of current settings as a regular class.
+
+        Returns a new class with all settings resolved to their current values.
+        The returned class is a regular Python class without any dynamic behavior.
+
+        This is useful for:
+        - Performance-critical code where attribute access overhead matters
+        - Situations where you want to freeze settings at a point in time
+        - Working around edge cases with the dynamic metaclass behavior
+
+        Example:
+            >>> class MySettings(CheapSettings):
+            ...     host: str = "localhost"
+            ...     port: int = 8080
+            >>> StaticSettings = MySettings.to_static()
+            >>> StaticSettings.host  # Just a regular class attribute
+            'localhost'
+        """
+        # Collect all settings and their current resolved values
+        attrs = {}
+
+        # Get all settings from the class (including inherited ones)
+        for name in dir(cls):
+            # Skip private attributes and methods
+            if name.startswith('_'):
+                continue
+
+            # Get the attribute value
+            try:
+                value = getattr(cls, name)
+            except AttributeError:
+                continue
+
+            # Skip methods and other callables
+            if callable(value):
+                continue
+
+            # Add the resolved value to our static class
+            attrs[name] = value
+
+        # Create a new regular class with the resolved values
+        static_class = type(f"Static{cls.__name__}", (), attrs)
+
+        # Copy the module for better repr and debugging
+        static_class.__module__ = cls.__module__
+
+        return static_class
+
+    @classmethod
     def set_config_from_command_line(cls, arg_parser=None, args=None):
         """Creates command line arguments (as flags) that correspond to the settings, & parses them, setting the
         config values based on them. Settings overridden by command line arguments take precedence over any

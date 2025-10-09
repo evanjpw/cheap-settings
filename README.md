@@ -197,6 +197,10 @@ use `pip`. OK, cool. I'm happy to help, really:
 pip install cheap-settings
 ```
 
+## Examples
+
+Those would be in the [examples](./examples) directory.
+
 ## TBD - Features to be Added
 
 * Settings without initializers
