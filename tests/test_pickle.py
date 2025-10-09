@@ -1,14 +1,17 @@
 """Test pickling support for CheapSettings."""
+
 import os
 import pickle
-import pytest
 from typing import Optional
+
+import pytest
 
 from cheap_settings import CheapSettings
 
 
 class SimpleSettings(CheapSettings):
     """Simple settings for testing."""
+
     host: str = "localhost"
     port: int = 8080
     debug: bool = False
@@ -16,6 +19,7 @@ class SimpleSettings(CheapSettings):
 
 class ComplexSettings(CheapSettings):
     """Settings with more complex types."""
+
     name: str = "test"
     count: int = 42
     ratio: float = 3.14
@@ -27,12 +31,14 @@ class ComplexSettings(CheapSettings):
 
 class BaseSettings(CheapSettings):
     """Base settings for inheritance testing."""
+
     base_value: str = "base"
     shared: int = 100
 
 
 class DerivedSettings(BaseSettings):
     """Derived settings for inheritance testing."""
+
     derived_value: str = "derived"
     shared: int = 200  # Override parent value
 
@@ -82,33 +88,33 @@ class TestPickleSupport:
         unpickled_instance = pickle.loads(pickled)
 
         # Verify the instance has access to settings
-        assert hasattr(unpickled_instance, 'host')
-        assert hasattr(unpickled_instance, 'port')
+        assert hasattr(unpickled_instance, "host")
+        assert hasattr(unpickled_instance, "port")
 
     def test_pickle_with_env_override(self):
         """Test pickling when environment variables override defaults."""
         # Set environment variable
-        os.environ['HOST'] = 'env-host.com'
+        os.environ["HOST"] = "env-host.com"
 
         try:
             # Get the value (should come from env)
             env_host = SimpleSettings.host
-            assert env_host == 'env-host.com'
+            assert env_host == "env-host.com"
 
             # Pickle the class
             pickled = pickle.dumps(SimpleSettings)
 
             # Clear the environment variable
-            del os.environ['HOST']
+            del os.environ["HOST"]
 
             # Unpickle - should get default value now
             unpickled_class = pickle.loads(pickled)
-            assert unpickled_class.host == 'localhost'  # Back to default
+            assert unpickled_class.host == "localhost"  # Back to default
 
         finally:
             # Clean up
-            if 'HOST' in os.environ:
-                del os.environ['HOST']
+            if "HOST" in os.environ:
+                del os.environ["HOST"]
 
     def test_pickle_preserves_type_annotations(self):
         """Test that type annotations are preserved through pickling."""
@@ -135,6 +141,7 @@ class TestPickleSupport:
 
     def test_local_class_pickle_limitation(self):
         """Document that local classes cannot be pickled."""
+
         # This is a Python limitation, not specific to CheapSettings
         class LocalSettings(CheapSettings):
             value: str = "local"
@@ -142,14 +149,17 @@ class TestPickleSupport:
         with pytest.raises(AttributeError, match="Can't pickle local object"):
             pickle.dumps(LocalSettings)
 
-    @pytest.mark.parametrize("value,expected_type", [
-        ("localhost", str),
-        (8080, int),
-        (3.14, float),
-        (True, bool),
-        (["a", "b"], list),
-        ({"key": "value"}, dict),
-    ])
+    @pytest.mark.parametrize(
+        "value,expected_type",
+        [
+            ("localhost", str),
+            (8080, int),
+            (3.14, float),
+            (True, bool),
+            (["a", "b"], list),
+            ({"key": "value"}, dict),
+        ],
+    )
     def test_pickle_individual_values(self, value, expected_type):
         """Test that individual setting values can be pickled."""
         pickled = pickle.dumps(value)

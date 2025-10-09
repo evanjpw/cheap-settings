@@ -7,11 +7,13 @@ for performance-critical code or special use cases.
 
 import os
 import time
+
 from cheap_settings import CheapSettings
 
 
 class DynamicSettings(CheapSettings):
     """Settings that respond to environment changes."""
+
     api_url: str = "https://api.example.com"
     timeout: int = 30
     retry_count: int = 3
@@ -49,9 +51,9 @@ def main():
     print(f"  Debug: {DynamicSettings.debug}")
 
     # Create a static snapshot
-    print("\n" + "="*50)
+    print("\n" + "=" * 50)
     print("Creating static snapshot with to_static()...")
-    print("="*50 + "\n")
+    print("=" * 50 + "\n")
 
     StaticSettings = DynamicSettings.to_static()
 
@@ -79,9 +81,9 @@ def main():
     print(f"    Timeout: {StaticSettings.timeout}")
 
     # Performance comparison
-    print("\n" + "="*50)
+    print("\n" + "=" * 50)
     print("Performance Comparison (100,000 accesses)")
-    print("="*50 + "\n")
+    print("=" * 50 + "\n")
 
     dynamic_time = measure_access_time(DynamicSettings, "DynamicSettings")
     static_time = measure_access_time(StaticSettings, "StaticSettings")

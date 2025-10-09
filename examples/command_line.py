@@ -7,11 +7,13 @@ Command line arguments take precedence over environment variables.
 
 import os
 import sys
+
 from cheap_settings import CheapSettings
 
 
 class ServerConfig(CheapSettings):
     """Server configuration with CLI support."""
+
     host: str = "0.0.0.0"
     port: int = 8000
     workers: int = 4
@@ -44,7 +46,7 @@ def main():
     print(f"  Reload: {ServerConfig.reload}")
     print(f"  Log Level: {ServerConfig.log_level}")
 
-    print("\n" + "="*50)
+    print("\n" + "=" * 50)
     print("Server Configuration Summary:")
     print(f"  Starting server at http://{ServerConfig.host}:{ServerConfig.port}")
     print(f"  Workers: {ServerConfig.workers}")
@@ -59,7 +61,9 @@ def main():
 if __name__ == "__main__":
     if len(sys.argv) == 1:
         print("Try running with arguments:")
-        print(f"  python {sys.argv[0]} --host localhost --port 3000 --workers 8 --reload")
+        print(
+            f"  python {sys.argv[0]} --host localhost --port 3000 --workers 8 --reload"
+        )
         print(f"  python {sys.argv[0]} --help")
         print("\nRunning with defaults...\n")
 

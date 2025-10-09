@@ -1,8 +1,8 @@
+import importlib
 import json
 import os
 import sys
 from typing import Union, get_args, get_origin
-import importlib
 
 from .command_line import _bool_str_to_bool, parse_command_line_arguments
 
@@ -137,7 +137,7 @@ class MetaCheapSettings(type):
         Type annotations are collected from the class and its parents.
         """
         # Preserve the original module for pickle compatibility
-        original_module = dct.get('__module__')
+        original_module = dct.get("__module__")
 
         config_instance = mcs.ConfigInstance()
 
@@ -323,7 +323,7 @@ class MetaCheapSettings(type):
 
         return (
             _reconstruct_settings_class,
-            (cls.__module__, cls.__name__, config_data, annotations)
+            (cls.__module__, cls.__name__, config_data, annotations),
         )
 
 
@@ -369,7 +369,7 @@ class CheapSettings(metaclass=MetaCheapSettings):
         return (
             _reconstruct_settings_instance,
             (self.__class__.__module__, self.__class__.__name__),
-            self.__getstate__()
+            self.__getstate__(),
         )
 
     def __getstate__(self):
@@ -410,7 +410,7 @@ class CheapSettings(metaclass=MetaCheapSettings):
         # Get all settings from the class (including inherited ones)
         for name in dir(cls):
             # Skip private attributes and methods
-            if name.startswith('_'):
+            if name.startswith("_"):
                 continue
 
             # Get the attribute value

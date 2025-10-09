@@ -1,4 +1,5 @@
 """Test the to_static() functionality for CheapSettings."""
+
 import os
 import pickle
 
@@ -9,6 +10,7 @@ from cheap_settings import CheapSettings
 
 class BasicSettings(CheapSettings):
     """Basic settings for testing."""
+
     host: str = "localhost"
     port: int = 8080
     debug: bool = False
@@ -63,7 +65,7 @@ class TestToStatic:
 
         # Should not have the metaclass
         assert type(StaticSettings) is type
-        assert not hasattr(StaticSettings, '__config_instance')
+        assert not hasattr(StaticSettings, "__config_instance")
 
         # Setting attributes should work normally
         StaticSettings.new_attr = "test"
@@ -71,6 +73,7 @@ class TestToStatic:
 
     def test_static_excludes_methods(self):
         """Test that methods are not copied to static class."""
+
         # Create a settings class with methods
         class SettingsWithMethods(CheapSettings):
             value: int = 42
@@ -93,13 +96,14 @@ class TestToStatic:
         assert StaticSettings.value == 42
 
         # Should not have methods (they're callable and skipped)
-        assert not hasattr(StaticSettings, 'class_method')
-        assert not hasattr(StaticSettings, 'static_method')
-        assert not hasattr(StaticSettings, 'set_config_from_command_line')
-        assert not hasattr(StaticSettings, 'to_static')
+        assert not hasattr(StaticSettings, "class_method")
+        assert not hasattr(StaticSettings, "static_method")
+        assert not hasattr(StaticSettings, "set_config_from_command_line")
+        assert not hasattr(StaticSettings, "to_static")
 
     def test_static_with_inheritance(self):
         """Test that to_static works with inherited settings."""
+
         class BaseSettings(CheapSettings):
             base_value: str = "base"
 
@@ -120,16 +124,10 @@ class TestToStatic:
         StaticSettings = BasicSettings.to_static()
 
         # Time dynamic access
-        dynamic_time = timeit.timeit(
-            lambda: BasicSettings.host,
-            number=10000
-        )
+        dynamic_time = timeit.timeit(lambda: BasicSettings.host, number=10000)
 
         # Time static access
-        static_time = timeit.timeit(
-            lambda: StaticSettings.host,
-            number=10000
-        )
+        static_time = timeit.timeit(lambda: StaticSettings.host, number=10000)
 
         # We don't assert that static is faster (it might not be significantly so),
         # but we verify both work and complete in reasonable time

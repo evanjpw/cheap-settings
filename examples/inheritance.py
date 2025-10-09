@@ -10,6 +10,7 @@ from cheap_settings import CheapSettings
 
 class BaseConfig(CheapSettings):
     """Base configuration with common settings."""
+
     app_name: str = "MyApplication"
     version: str = "1.0.0"
     timeout: int = 30
@@ -17,6 +18,7 @@ class BaseConfig(CheapSettings):
 
 class DatabaseConfig(BaseConfig):
     """Database configuration, inheriting base settings."""
+
     db_host: str = "localhost"
     db_port: int = 5432
     db_name: str = "myapp"
@@ -24,6 +26,7 @@ class DatabaseConfig(BaseConfig):
 
 class DevelopmentConfig(DatabaseConfig):
     """Development environment configuration."""
+
     debug: bool = True
     db_name: str = "myapp_dev"  # Override parent setting
     hot_reload: bool = True
@@ -31,6 +34,7 @@ class DevelopmentConfig(DatabaseConfig):
 
 class ProductionConfig(DatabaseConfig):
     """Production environment configuration."""
+
     debug: bool = False
     db_host: str = "prod.db.example.com"  # Override parent setting
     db_name: str = "myapp_prod"  # Override parent setting
@@ -48,11 +52,11 @@ def show_config(config_class, env_name):
     print(f"Database Name: {config_class.db_name}")
 
     # Check for environment-specific settings
-    if hasattr(config_class, 'debug'):
+    if hasattr(config_class, "debug"):
         print(f"Debug Mode: {config_class.debug}")
-    if hasattr(config_class, 'hot_reload'):
+    if hasattr(config_class, "hot_reload"):
         print(f"Hot Reload: {config_class.hot_reload}")
-    if hasattr(config_class, 'ssl_required'):
+    if hasattr(config_class, "ssl_required"):
         print(f"SSL Required: {config_class.ssl_required}")
 
 

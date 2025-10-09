@@ -10,6 +10,7 @@ from cheap_settings import CheapSettings
 
 class AppSettings(CheapSettings):
     """Application configuration."""
+
     host: str = "localhost"
     port: int = 8080
     debug: bool = False
