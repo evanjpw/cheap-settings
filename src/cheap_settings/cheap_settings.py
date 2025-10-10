@@ -2,6 +2,7 @@ import importlib
 import json
 import os
 import sys
+from pathlib import Path
 from typing import Union, get_args, get_origin
 
 from .command_line import _bool_str_to_bool, parse_command_line_arguments
@@ -111,6 +112,8 @@ def _convert_value_to_type(value, to_type, name: str):
         return _parse_json(value, list, name)
     elif to_type is dict:
         return _parse_json(value, dict, name)
+    elif to_type is Path:
+        return Path(value)
 
     # If we get here, we don't know how to handle this type
     return value
@@ -340,8 +343,8 @@ class CheapSettings(metaclass=MetaCheapSettings):
     Environment variables will override the defaults:
         HOST=example.com PORT=3000 DEBUG=true python myapp.py
 
-    Supports all basic Python types plus Optional and Union types.
-    Complex types (list, dict) are parsed from JSON strings.
+    Supports all basic Python types plus Optional and Union types (or Path
+    types). Complex types (list, dict) are parsed from JSON strings.
     """
 
     def __getattribute__(self, name):

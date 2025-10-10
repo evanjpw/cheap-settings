@@ -169,26 +169,16 @@ That happened to me a lot. In response, I wrote this.
 
 You make a class, which is a subclass of `CheapSettings`. You add the annoying values as attributes, right on the class
 definition. Put it in some file called `config.py` or something. You need to use the setting somewhere in your code?
-`from .config import MyConfig` (or whatever import path makes sense in your project). Then you can say `MyConfig.some_setting`. Done. You need to set it with an environment
-variable or a command line option? Already done. For the command line parsing, add
-`MySettings.set_config_from_command_line()` (you can ignore the return value). How do you deploy? However you want, your
-settings will follow you.
+`from .config import MyConfig` (or whatever import path makes sense in your project). Then you can say
+`MyConfig.some_setting`. Done. You need to set it with an environment variable or a command line option? Already done.
+For the command line parsing, add `MySettings.set_config_from_command_line()` (you can ignore the return value). How do
+you deploy? However you want, your settings will follow you.
 
 You are trying to do a thing. Do the thing. Don't spend any time configuring the thing.
 
 That is why, maybe, you want this.
 
 ## Installation
-
-<!--
-~~I'm having PyPi issues (which are, I must admit, my own fault). Until they are resolved, you will have to use:~~
-
-```shell
-pip install git+https://github.com/evanjpw/cheap-settings.git
-```
-
-~~We apologize for any inconvenience.~~
--->
 
 Really? Really? You're looking for a settings/config manager for your Python code, & you want me to tell you how to
 use `pip`. OK, cool. I'm happy to help, really:
@@ -199,14 +189,14 @@ pip install cheap-settings
 
 ## Examples
 
-Those would be in the [examples](./examples) directory.
+Those would be in the [examples](https://github.com/evanjpw/cheap-settings/tree/main/examples) directory.
 
 ## TBD - Features to be Added
 
 * Settings without initializers
 * Use the initializer type as the setting type (no type hint needed)
 * Selectable different configurations for different environments (for example, DEV, STAGING, PROD)
-* Expanded type support: `datetime`, `date`, `time`, `pathlib.Path`, `Decimal`, `UUID`, custom types with
+* Expanded type support: `datetime`, `date`, `time`, `Decimal`, `UUID`, custom types with
  `from_string()` methods
 * Custom validators & converters for field-level validation and custom conversion functions
 
