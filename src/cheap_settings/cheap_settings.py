@@ -302,12 +302,11 @@ class MetaCheapSettings(type):
         # if it can be imported from its module
         try:
             # Try to import the class from its module
-            # TODO: Does this raise anything?
             module = importlib.import_module(cls.__module__)
             if hasattr(module, cls.__name__):
                 # Class can be imported normally
                 return getattr, (module, cls.__name__)
-        except AttributeError:
+        except (ImportError, AttributeError):
             pass
 
         # If we can't import it normally, we need to reconstruct it
@@ -359,12 +358,11 @@ class CheapSettings(metaclass=MetaCheapSettings):
         """Enable pickling by returning class and state information."""
         # Try to return the class directly if it can be imported
         try:
-            # TODO: Does this raise anything?
             module = importlib.import_module(self.__class__.__module__)
             if hasattr(module, self.__class__.__name__):
                 cls = getattr(module, self.__class__.__name__)
                 return cls, (), self.__getstate__()
-        except AttributeError:
+        except (ImportError, AttributeError):
             pass
 
         # Fallback to reconstruction
