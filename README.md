@@ -199,6 +199,8 @@ Those would be in the [examples](https://github.com/evanjpw/cheap-settings/tree/
 * Expanded type support: `datetime`, `date`, `time`, `Decimal`, `UUID`, custom types with
  `from_string()` methods
 * Custom validators & converters for field-level validation and custom conversion functions
+* Better error messages <!-- When JSON.loads() fails, tell users exactly what to fix -->
+* from_env() class method - Explicitly only read from env, ignoring defaults (niche but useful)
 
 ## Alternatives
 
