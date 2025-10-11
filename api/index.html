@@ -1,0 +1,1568 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A lightweight, low footprint settings system">
+      
+      
+      
+        <link rel="canonical" href="https://evanjpw.github.io/cheap-settings/api/">
+      
+      
+        <link rel="prev" href="../examples/">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.21">
+    
+    
+      
+        <title>API Reference - cheap-settings</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.2a3383ac.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#api-reference" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="cheap-settings" class="md-header__button md-logo" aria-label="cheap-settings" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            cheap-settings
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              API Reference
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/evanjpw/cheap-settings" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    evanjpw/cheap-settings
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="cheap-settings" class="md-nav__button md-logo" aria-label="cheap-settings" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    cheap-settings
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/evanjpw/cheap-settings" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    evanjpw/cheap-settings
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Examples
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    API Reference
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    API Reference
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#cheapsettings" class="md-nav__link">
+    <span class="md-ellipsis">
+      CheapSettings
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CheapSettings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cheap_settings.CheapSettings" class="md-nav__link">
+    <span class="md-ellipsis">
+      CheapSettings
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CheapSettings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cheap_settings.CheapSettings.__getattribute__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __getattribute__
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cheap_settings.CheapSettings.__getstate__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __getstate__
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cheap_settings.CheapSettings.__reduce__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __reduce__
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cheap_settings.CheapSettings.__setstate__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __setstate__
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cheap_settings.CheapSettings.set_config_from_command_line" class="md-nav__link">
+    <span class="md-ellipsis">
+      set_config_from_command_line
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cheap_settings.CheapSettings.to_static" class="md-nav__link">
+    <span class="md-ellipsis">
+      to_static
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#type-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      Type Support
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Type Support">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#supported-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Supported Types
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#environment-variable-naming" class="md-nav__link">
+    <span class="md-ellipsis">
+      Environment Variable Naming
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#command-line-arguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      Command Line Arguments
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inheritance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Inheritance
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Error Handling
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#cheapsettings" class="md-nav__link">
+    <span class="md-ellipsis">
+      CheapSettings
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CheapSettings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cheap_settings.CheapSettings" class="md-nav__link">
+    <span class="md-ellipsis">
+      CheapSettings
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CheapSettings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cheap_settings.CheapSettings.__getattribute__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __getattribute__
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cheap_settings.CheapSettings.__getstate__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __getstate__
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cheap_settings.CheapSettings.__reduce__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __reduce__
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cheap_settings.CheapSettings.__setstate__" class="md-nav__link">
+    <span class="md-ellipsis">
+      __setstate__
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cheap_settings.CheapSettings.set_config_from_command_line" class="md-nav__link">
+    <span class="md-ellipsis">
+      set_config_from_command_line
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cheap_settings.CheapSettings.to_static" class="md-nav__link">
+    <span class="md-ellipsis">
+      to_static
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#type-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      Type Support
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Type Support">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#supported-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Supported Types
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#environment-variable-naming" class="md-nav__link">
+    <span class="md-ellipsis">
+      Environment Variable Naming
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#command-line-arguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      Command Line Arguments
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inheritance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Inheritance
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Error Handling
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="api-reference">API Reference</h1>
+<h2 id="cheapsettings">CheapSettings</h2>
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="cheap_settings.CheapSettings" class="doc doc-heading">
+            <code>cheap_settings.CheapSettings</code>
+
+
+</h3>
+
+
+    <div class="doc doc-contents first">
+
+
+        <p>Base class for simple, environment-variable-driven configuration.</p>
+<p>Subclass this and define your settings as typed class attributes:</p>
+<pre><code>class MySettings(CheapSettings):
+    host: str = "localhost"
+    port: int = 8080
+    debug: bool = False
+</code></pre>
+
+
+<details class="environment-variables-will-override-the-defaults" open>
+  <summary>Environment variables will override the defaults</summary>
+  <p>HOST=example.com PORT=3000 DEBUG=true python myapp.py</p>
+</details>        <p>Supports all basic Python types plus Optional and Union types (or Path
+types). Complex types (list, dict) are parsed from JSON strings.</p>
+
+
+
+
+
+
+
+
+              <details class="quote">
+                <summary>Source code in <code>src/cheap_settings/cheap_settings.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span>
+<span class="normal">340</span>
+<span class="normal">341</span>
+<span class="normal">342</span>
+<span class="normal">343</span>
+<span class="normal">344</span>
+<span class="normal">345</span>
+<span class="normal">346</span>
+<span class="normal">347</span>
+<span class="normal">348</span>
+<span class="normal">349</span>
+<span class="normal">350</span>
+<span class="normal">351</span>
+<span class="normal">352</span>
+<span class="normal">353</span>
+<span class="normal">354</span>
+<span class="normal">355</span>
+<span class="normal">356</span>
+<span class="normal">357</span>
+<span class="normal">358</span>
+<span class="normal">359</span>
+<span class="normal">360</span>
+<span class="normal">361</span>
+<span class="normal">362</span>
+<span class="normal">363</span>
+<span class="normal">364</span>
+<span class="normal">365</span>
+<span class="normal">366</span>
+<span class="normal">367</span>
+<span class="normal">368</span>
+<span class="normal">369</span>
+<span class="normal">370</span>
+<span class="normal">371</span>
+<span class="normal">372</span>
+<span class="normal">373</span>
+<span class="normal">374</span>
+<span class="normal">375</span>
+<span class="normal">376</span>
+<span class="normal">377</span>
+<span class="normal">378</span>
+<span class="normal">379</span>
+<span class="normal">380</span>
+<span class="normal">381</span>
+<span class="normal">382</span>
+<span class="normal">383</span>
+<span class="normal">384</span>
+<span class="normal">385</span>
+<span class="normal">386</span>
+<span class="normal">387</span>
+<span class="normal">388</span>
+<span class="normal">389</span>
+<span class="normal">390</span>
+<span class="normal">391</span>
+<span class="normal">392</span>
+<span class="normal">393</span>
+<span class="normal">394</span>
+<span class="normal">395</span>
+<span class="normal">396</span>
+<span class="normal">397</span>
+<span class="normal">398</span>
+<span class="normal">399</span>
+<span class="normal">400</span>
+<span class="normal">401</span>
+<span class="normal">402</span>
+<span class="normal">403</span>
+<span class="normal">404</span>
+<span class="normal">405</span>
+<span class="normal">406</span>
+<span class="normal">407</span>
+<span class="normal">408</span>
+<span class="normal">409</span>
+<span class="normal">410</span>
+<span class="normal">411</span>
+<span class="normal">412</span>
+<span class="normal">413</span>
+<span class="normal">414</span>
+<span class="normal">415</span>
+<span class="normal">416</span>
+<span class="normal">417</span>
+<span class="normal">418</span>
+<span class="normal">419</span>
+<span class="normal">420</span>
+<span class="normal">421</span>
+<span class="normal">422</span>
+<span class="normal">423</span>
+<span class="normal">424</span>
+<span class="normal">425</span>
+<span class="normal">426</span>
+<span class="normal">427</span>
+<span class="normal">428</span>
+<span class="normal">429</span>
+<span class="normal">430</span>
+<span class="normal">431</span>
+<span class="normal">432</span>
+<span class="normal">433</span>
+<span class="normal">434</span>
+<span class="normal">435</span>
+<span class="normal">436</span>
+<span class="normal">437</span>
+<span class="normal">438</span>
+<span class="normal">439</span>
+<span class="normal">440</span>
+<span class="normal">441</span>
+<span class="normal">442</span>
+<span class="normal">443</span>
+<span class="normal">444</span>
+<span class="normal">445</span>
+<span class="normal">446</span>
+<span class="normal">447</span>
+<span class="normal">448</span>
+<span class="normal">449</span>
+<span class="normal">450</span>
+<span class="normal">451</span>
+<span class="normal">452</span>
+<span class="normal">453</span>
+<span class="normal">454</span>
+<span class="normal">455</span>
+<span class="normal">456</span>
+<span class="normal">457</span>
+<span class="normal">458</span>
+<span class="normal">459</span>
+<span class="normal">460</span>
+<span class="normal">461</span>
+<span class="normal">462</span>
+<span class="normal">463</span>
+<span class="normal">464</span>
+<span class="normal">465</span>
+<span class="normal">466</span>
+<span class="normal">467</span>
+<span class="normal">468</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">CheapSettings</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">MetaCheapSettings</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for simple, environment-variable-driven configuration.</span>
+
+<span class="sd">    Subclass this and define your settings as typed class attributes:</span>
+
+<span class="sd">        class MySettings(CheapSettings):</span>
+<span class="sd">            host: str = &quot;localhost&quot;</span>
+<span class="sd">            port: int = 8080</span>
+<span class="sd">            debug: bool = False</span>
+
+<span class="sd">    Environment variables will override the defaults:</span>
+<span class="sd">        HOST=example.com PORT=3000 DEBUG=true python myapp.py</span>
+
+<span class="sd">    Supports all basic Python types plus Optional and Union types (or Path</span>
+<span class="sd">    types). Complex types (list, dict) are parsed from JSON strings.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Allow instances to access class-level settings.&quot;&quot;&quot;</span>
+        <span class="c1"># First try regular instance attribute access</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="c1"># Fall back to class-level attribute access</span>
+            <span class="c1"># This allows instances to access settings defined at the class level</span>
+            <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span> <span class="n">name</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__reduce__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Enable pickling by returning class and state information.&quot;&quot;&quot;</span>
+        <span class="c1"># Try to return the class directly if it can be imported</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">module</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__module__</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">):</span>
+                <span class="bp">cls</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+                <span class="k">return</span> <span class="bp">cls</span><span class="p">,</span> <span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">__getstate__</span><span class="p">()</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">ImportError</span><span class="p">,</span> <span class="ne">AttributeError</span><span class="p">):</span>
+            <span class="k">pass</span>
+
+        <span class="c1"># Fallback to reconstruction</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">_reconstruct_settings_instance</span><span class="p">,</span>
+            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__module__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__getstate__</span><span class="p">(),</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the state for pickling - returns a dict of all settings.&quot;&quot;&quot;</span>
+        <span class="c1"># For CheapSettings, we don&#39;t actually have instance state</span>
+        <span class="c1"># All settings are class-level, so we just return an empty dict</span>
+        <span class="k">return</span> <span class="p">{}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Restore state when unpickling.&quot;&quot;&quot;</span>
+        <span class="c1"># Nothing to restore for CheapSettings instances</span>
+        <span class="c1"># All settings are accessed from the class level</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_static</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a static snapshot of current settings as a regular class.</span>
+
+<span class="sd">        Returns a new class with all settings resolved to their current values.</span>
+<span class="sd">        The returned class is a regular Python class without any dynamic behavior.</span>
+
+<span class="sd">        This is useful for:</span>
+<span class="sd">        - Performance-critical code where attribute access overhead matters</span>
+<span class="sd">        - Situations where you want to freeze settings at a point in time</span>
+<span class="sd">        - Working around edge cases with the dynamic metaclass behavior</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; class MySettings(CheapSettings):</span>
+<span class="sd">            ...     host: str = &quot;localhost&quot;</span>
+<span class="sd">            ...     port: int = 8080</span>
+<span class="sd">            &gt;&gt;&gt; StaticSettings = MySettings.to_static()</span>
+<span class="sd">            &gt;&gt;&gt; StaticSettings.host  # Just a regular class attribute</span>
+<span class="sd">            &#39;localhost&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Collect all settings and their current resolved values</span>
+        <span class="n">attrs</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="c1"># Get all settings from the class (including inherited ones)</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+            <span class="c1"># Skip private attributes and methods</span>
+            <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">):</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># Get the attribute value</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># Skip methods and other callables</span>
+            <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># Add the resolved value to our static class</span>
+            <span class="n">attrs</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="c1"># Create a new regular class with the resolved values</span>
+        <span class="n">static_class</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Static</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="p">(),</span> <span class="n">attrs</span><span class="p">)</span>
+
+        <span class="c1"># Copy the module for better repr and debugging</span>
+        <span class="n">static_class</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__module__</span>
+
+        <span class="k">return</span> <span class="n">static_class</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_config_from_command_line</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">arg_parser</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates command line arguments (as flags) that correspond to the settings, &amp; parses them, setting the</span>
+<span class="sd">        config values based on them. Settings overridden by command line arguments take precedence over any</span>
+<span class="sd">        default variables, &amp; over environment variables. Currently, settings of `dict` &amp; `list` types are ignored,</span>
+<span class="sd">        &amp; no command line arguments are added for them. It can optionally take an instance of argparse.ArgumentParser</span>
+<span class="sd">        that can be used to pre-configure your own command line arguments. The optional `args` parameter allows</span>
+<span class="sd">        passing specific arguments for testing (if None, uses sys.argv). Returns the parsed arguments (an</span>
+<span class="sd">        instance of argparse.Namespace). Can raise various exceptions.&quot;&quot;&quot;</span>
+
+        <span class="c1"># Create a second config instance specifically for command line arguments. This adds a new class attribute</span>
+        <span class="c1"># called `__cli_config_instance`, &amp; adds any command line arguments that correspond to the attributes of</span>
+        <span class="c1"># `__config_instance`. It also copies any type annotations for the copied attributes.</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">config_instance</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="s2">&quot;__config_instance&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Config instance has not been set.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">config_instance</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Config instance has not been set.&quot;</span><span class="p">)</span>
+
+        <span class="n">cli_config_instance</span> <span class="o">=</span> <span class="n">MetaCheapSettings</span><span class="o">.</span><span class="n">ConfigInstance</span><span class="p">()</span>
+        <span class="n">parsed_args</span> <span class="o">=</span> <span class="n">parse_command_line_arguments</span><span class="p">(</span>
+            <span class="n">config_instance</span><span class="p">,</span> <span class="n">cli_config_instance</span><span class="p">,</span> <span class="n">arg_parser</span><span class="p">,</span> <span class="n">args</span>
+        <span class="p">)</span>
+        <span class="c1"># Use type.__setattr__ to set attribute on the class</span>
+        <span class="nb">type</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="s2">&quot;__cli_config_instance&quot;</span><span class="p">,</span> <span class="n">cli_config_instance</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">parsed_args</span>
+</code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="cheap_settings.CheapSettings.__getattribute__" class="doc doc-heading">
+            <code class="highlight language-python"><span class="fm">__getattribute__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span></code>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Allow instances to access class-level settings.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>src/cheap_settings/cheap_settings.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">350</span>
+<span class="normal">351</span>
+<span class="normal">352</span>
+<span class="normal">353</span>
+<span class="normal">354</span>
+<span class="normal">355</span>
+<span class="normal">356</span>
+<span class="normal">357</span>
+<span class="normal">358</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Allow instances to access class-level settings.&quot;&quot;&quot;</span>
+    <span class="c1"># First try regular instance attribute access</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+        <span class="c1"># Fall back to class-level attribute access</span>
+        <span class="c1"># This allows instances to access settings defined at the class level</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span> <span class="n">name</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="cheap_settings.CheapSettings.__getstate__" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">__getstate__</span><span class="p">()</span></code>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Get the state for pickling - returns a dict of all settings.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>src/cheap_settings/cheap_settings.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">378</span>
+<span class="normal">379</span>
+<span class="normal">380</span>
+<span class="normal">381</span>
+<span class="normal">382</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the state for pickling - returns a dict of all settings.&quot;&quot;&quot;</span>
+    <span class="c1"># For CheapSettings, we don&#39;t actually have instance state</span>
+    <span class="c1"># All settings are class-level, so we just return an empty dict</span>
+    <span class="k">return</span> <span class="p">{}</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="cheap_settings.CheapSettings.__reduce__" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">__reduce__</span><span class="p">()</span></code>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Enable pickling by returning class and state information.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>src/cheap_settings/cheap_settings.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">360</span>
+<span class="normal">361</span>
+<span class="normal">362</span>
+<span class="normal">363</span>
+<span class="normal">364</span>
+<span class="normal">365</span>
+<span class="normal">366</span>
+<span class="normal">367</span>
+<span class="normal">368</span>
+<span class="normal">369</span>
+<span class="normal">370</span>
+<span class="normal">371</span>
+<span class="normal">372</span>
+<span class="normal">373</span>
+<span class="normal">374</span>
+<span class="normal">375</span>
+<span class="normal">376</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">__reduce__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Enable pickling by returning class and state information.&quot;&quot;&quot;</span>
+    <span class="c1"># Try to return the class directly if it can be imported</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">module</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__module__</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">):</span>
+            <span class="bp">cls</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="p">,</span> <span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">__getstate__</span><span class="p">()</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">ImportError</span><span class="p">,</span> <span class="ne">AttributeError</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="c1"># Fallback to reconstruction</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">_reconstruct_settings_instance</span><span class="p">,</span>
+        <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__module__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">),</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__getstate__</span><span class="p">(),</span>
+    <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="cheap_settings.CheapSettings.__setstate__" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">__setstate__</span><span class="p">(</span><span class="n">state</span><span class="p">)</span></code>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Restore state when unpickling.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>src/cheap_settings/cheap_settings.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">384</span>
+<span class="normal">385</span>
+<span class="normal">386</span>
+<span class="normal">387</span>
+<span class="normal">388</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Restore state when unpickling.&quot;&quot;&quot;</span>
+    <span class="c1"># Nothing to restore for CheapSettings instances</span>
+    <span class="c1"># All settings are accessed from the class level</span>
+    <span class="k">pass</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="cheap_settings.CheapSettings.set_config_from_command_line" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">set_config_from_command_line</span><span class="p">(</span><span class="n">arg_parser</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Creates command line arguments (as flags) that correspond to the settings, &amp; parses them, setting the
+config values based on them. Settings overridden by command line arguments take precedence over any
+default variables, &amp; over environment variables. Currently, settings of <code>dict</code> &amp; <code>list</code> types are ignored,
+&amp; no command line arguments are added for them. It can optionally take an instance of argparse.ArgumentParser
+that can be used to pre-configure your own command line arguments. The optional <code>args</code> parameter allows
+passing specific arguments for testing (if None, uses sys.argv). Returns the parsed arguments (an
+instance of argparse.Namespace). Can raise various exceptions.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>src/cheap_settings/cheap_settings.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">440</span>
+<span class="normal">441</span>
+<span class="normal">442</span>
+<span class="normal">443</span>
+<span class="normal">444</span>
+<span class="normal">445</span>
+<span class="normal">446</span>
+<span class="normal">447</span>
+<span class="normal">448</span>
+<span class="normal">449</span>
+<span class="normal">450</span>
+<span class="normal">451</span>
+<span class="normal">452</span>
+<span class="normal">453</span>
+<span class="normal">454</span>
+<span class="normal">455</span>
+<span class="normal">456</span>
+<span class="normal">457</span>
+<span class="normal">458</span>
+<span class="normal">459</span>
+<span class="normal">460</span>
+<span class="normal">461</span>
+<span class="normal">462</span>
+<span class="normal">463</span>
+<span class="normal">464</span>
+<span class="normal">465</span>
+<span class="normal">466</span>
+<span class="normal">467</span>
+<span class="normal">468</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">set_config_from_command_line</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">arg_parser</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates command line arguments (as flags) that correspond to the settings, &amp; parses them, setting the</span>
+<span class="sd">    config values based on them. Settings overridden by command line arguments take precedence over any</span>
+<span class="sd">    default variables, &amp; over environment variables. Currently, settings of `dict` &amp; `list` types are ignored,</span>
+<span class="sd">    &amp; no command line arguments are added for them. It can optionally take an instance of argparse.ArgumentParser</span>
+<span class="sd">    that can be used to pre-configure your own command line arguments. The optional `args` parameter allows</span>
+<span class="sd">    passing specific arguments for testing (if None, uses sys.argv). Returns the parsed arguments (an</span>
+<span class="sd">    instance of argparse.Namespace). Can raise various exceptions.&quot;&quot;&quot;</span>
+
+    <span class="c1"># Create a second config instance specifically for command line arguments. This adds a new class attribute</span>
+    <span class="c1"># called `__cli_config_instance`, &amp; adds any command line arguments that correspond to the attributes of</span>
+    <span class="c1"># `__config_instance`. It also copies any type annotations for the copied attributes.</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">config_instance</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="s2">&quot;__config_instance&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Config instance has not been set.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">config_instance</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;Config instance has not been set.&quot;</span><span class="p">)</span>
+
+    <span class="n">cli_config_instance</span> <span class="o">=</span> <span class="n">MetaCheapSettings</span><span class="o">.</span><span class="n">ConfigInstance</span><span class="p">()</span>
+    <span class="n">parsed_args</span> <span class="o">=</span> <span class="n">parse_command_line_arguments</span><span class="p">(</span>
+        <span class="n">config_instance</span><span class="p">,</span> <span class="n">cli_config_instance</span><span class="p">,</span> <span class="n">arg_parser</span><span class="p">,</span> <span class="n">args</span>
+    <span class="p">)</span>
+    <span class="c1"># Use type.__setattr__ to set attribute on the class</span>
+    <span class="nb">type</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="s2">&quot;__cli_config_instance&quot;</span><span class="p">,</span> <span class="n">cli_config_instance</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">parsed_args</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="cheap_settings.CheapSettings.to_static" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">to_static</span><span class="p">()</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+</h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Create a static snapshot of current settings as a regular class.</p>
+<p>Returns a new class with all settings resolved to their current values.
+The returned class is a regular Python class without any dynamic behavior.</p>
+<p>This is useful for:
+- Performance-critical code where attribute access overhead matters
+- Situations where you want to freeze settings at a point in time
+- Working around edge cases with the dynamic metaclass behavior</p>
+
+
+<details class="example" open>
+  <summary>Example</summary>
+  <blockquote>
+<blockquote>
+<blockquote>
+<p>class MySettings(CheapSettings):
+...     host: str = "localhost"
+...     port: int = 8080
+StaticSettings = MySettings.to_static()
+StaticSettings.host  # Just a regular class attribute
+'localhost'</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</details>
+
+            <details class="quote">
+              <summary>Source code in <code>src/cheap_settings/cheap_settings.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">390</span>
+<span class="normal">391</span>
+<span class="normal">392</span>
+<span class="normal">393</span>
+<span class="normal">394</span>
+<span class="normal">395</span>
+<span class="normal">396</span>
+<span class="normal">397</span>
+<span class="normal">398</span>
+<span class="normal">399</span>
+<span class="normal">400</span>
+<span class="normal">401</span>
+<span class="normal">402</span>
+<span class="normal">403</span>
+<span class="normal">404</span>
+<span class="normal">405</span>
+<span class="normal">406</span>
+<span class="normal">407</span>
+<span class="normal">408</span>
+<span class="normal">409</span>
+<span class="normal">410</span>
+<span class="normal">411</span>
+<span class="normal">412</span>
+<span class="normal">413</span>
+<span class="normal">414</span>
+<span class="normal">415</span>
+<span class="normal">416</span>
+<span class="normal">417</span>
+<span class="normal">418</span>
+<span class="normal">419</span>
+<span class="normal">420</span>
+<span class="normal">421</span>
+<span class="normal">422</span>
+<span class="normal">423</span>
+<span class="normal">424</span>
+<span class="normal">425</span>
+<span class="normal">426</span>
+<span class="normal">427</span>
+<span class="normal">428</span>
+<span class="normal">429</span>
+<span class="normal">430</span>
+<span class="normal">431</span>
+<span class="normal">432</span>
+<span class="normal">433</span>
+<span class="normal">434</span>
+<span class="normal">435</span>
+<span class="normal">436</span>
+<span class="normal">437</span>
+<span class="normal">438</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">to_static</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a static snapshot of current settings as a regular class.</span>
+
+<span class="sd">    Returns a new class with all settings resolved to their current values.</span>
+<span class="sd">    The returned class is a regular Python class without any dynamic behavior.</span>
+
+<span class="sd">    This is useful for:</span>
+<span class="sd">    - Performance-critical code where attribute access overhead matters</span>
+<span class="sd">    - Situations where you want to freeze settings at a point in time</span>
+<span class="sd">    - Working around edge cases with the dynamic metaclass behavior</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; class MySettings(CheapSettings):</span>
+<span class="sd">        ...     host: str = &quot;localhost&quot;</span>
+<span class="sd">        ...     port: int = 8080</span>
+<span class="sd">        &gt;&gt;&gt; StaticSettings = MySettings.to_static()</span>
+<span class="sd">        &gt;&gt;&gt; StaticSettings.host  # Just a regular class attribute</span>
+<span class="sd">        &#39;localhost&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Collect all settings and their current resolved values</span>
+    <span class="n">attrs</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1"># Get all settings from the class (including inherited ones)</span>
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="c1"># Skip private attributes and methods</span>
+        <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">):</span>
+            <span class="k">continue</span>
+
+        <span class="c1"># Get the attribute value</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="c1"># Skip methods and other callables</span>
+        <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+            <span class="k">continue</span>
+
+        <span class="c1"># Add the resolved value to our static class</span>
+        <span class="n">attrs</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="c1"># Create a new regular class with the resolved values</span>
+    <span class="n">static_class</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Static</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="p">(),</span> <span class="n">attrs</span><span class="p">)</span>
+
+    <span class="c1"># Copy the module for better repr and debugging</span>
+    <span class="n">static_class</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__module__</span>
+
+    <span class="k">return</span> <span class="n">static_class</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div><h2 id="type-support">Type Support</h2>
+<p><code>cheap-settings</code> automatically converts environment variable strings to the appropriate Python types based on type annotations.</p>
+<h3 id="supported-types">Supported Types</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Example</th>
+<th>Environment Variable</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>str</code></td>
+<td><code>"hello"</code></td>
+<td><code>VALUE="hello"</code></td>
+<td>No conversion needed</td>
+</tr>
+<tr>
+<td><code>int</code></td>
+<td><code>42</code></td>
+<td><code>VALUE="42"</code></td>
+<td>Converted with <code>int()</code></td>
+</tr>
+<tr>
+<td><code>float</code></td>
+<td><code>3.14</code></td>
+<td><code>VALUE="3.14"</code></td>
+<td>Converted with <code>float()</code></td>
+</tr>
+<tr>
+<td><code>bool</code></td>
+<td><code>True</code></td>
+<td><code>VALUE="true"</code></td>
+<td>Accepts: true/false, yes/no, on/off, 1/0 (case-insensitive)</td>
+</tr>
+<tr>
+<td><code>pathlib.Path</code></td>
+<td><code>Path("/etc")</code></td>
+<td><code>VALUE="/etc"</code></td>
+<td>Converted with <code>Path()</code></td>
+</tr>
+<tr>
+<td><code>list</code></td>
+<td><code>[1, 2, 3]</code></td>
+<td><code>VALUE='[1, 2, 3]'</code></td>
+<td>Parsed as JSON</td>
+</tr>
+<tr>
+<td><code>dict</code></td>
+<td><code>{"key": "value"}</code></td>
+<td><code>VALUE='{"key": "value"}'</code></td>
+<td>Parsed as JSON</td>
+</tr>
+<tr>
+<td><code>Optional[T]</code></td>
+<td><code>None</code> or <code>T</code></td>
+<td><code>VALUE="none"</code> or valid <code>T</code></td>
+<td>Special "none" string sets to None</td>
+</tr>
+<tr>
+<td><code>Union[T, U]</code></td>
+<td><code>T</code> or <code>U</code></td>
+<td>Valid for either type</td>
+<td>Tries each type in order</td>
+</tr>
+</tbody>
+</table>
+<h3 id="environment-variable-naming">Environment Variable Naming</h3>
+<p>Environment variables are the uppercase version of the attribute name:</p>
+<pre><code class="language-python">class Settings(CheapSettings):
+    database_url: str = &quot;localhost&quot;     # DATABASE_URL
+    api_timeout: int = 30               # API_TIMEOUT
+    enable_cache: bool = False          # ENABLE_CACHE
+</code></pre>
+<h3 id="command-line-arguments">Command Line Arguments</h3>
+<p>Command line arguments are the lowercase, hyphenated version of the attribute name:</p>
+<pre><code class="language-python">class Settings(CheapSettings):
+    database_url: str = &quot;localhost&quot;     # --database-url
+    api_timeout: int = 30               # --api-timeout
+    enable_cache: bool = False          # --enable-cache / --no-enable-cache
+</code></pre>
+<h3 id="inheritance">Inheritance</h3>
+<p>Settings classes support inheritance. Child classes inherit all settings from parent classes and can override them:</p>
+<pre><code class="language-python">class BaseSettings(CheapSettings):
+    timeout: int = 30
+
+class WebSettings(BaseSettings):
+    timeout: int = 60  # Override parent
+    port: int = 8080   # Add new setting
+</code></pre>
+<h3 id="error-handling">Error Handling</h3>
+<ul>
+<li><strong>Type conversion errors</strong>: If an environment variable can't be converted to the expected type, a <code>ValueError</code> is raised with details</li>
+<li><strong>JSON parsing errors</strong>: For <code>list</code> and <code>dict</code> types, JSON parsing errors include helpful messages</li>
+<li><strong>Missing attributes</strong>: Accessing undefined settings raises <code>AttributeError</code></li>
+</ul>
+<h3 id="performance">Performance</h3>
+<p>For performance-critical code where attribute access overhead matters, use <code>to_static()</code> to create a snapshot with no dynamic behavior:</p>
+<pre><code class="language-python">Settings = MyDynamicSettings.to_static()
+# Now Settings.value is just a regular class attribute
+</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>
