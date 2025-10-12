@@ -283,7 +283,18 @@ class MetaCheapSettings(type):
                             attribute,
                         )
                     else:
-                        # No type annotation, return as string
+                        # No type annotation, try to infer from default value
+                        if hasattr(config_instance, attribute):
+                            default_value = getattr(config_instance, attribute)
+                            inferred_type = type(default_value)
+                            # Special case: Path instances have concrete types like PosixPath
+                            # but we want to treat them as Path for conversion
+                            if isinstance(default_value, Path):
+                                inferred_type = Path
+                            return _convert_value_to_type(
+                                env_attr, inferred_type, attribute
+                            )
+                        # No annotation and no default, return as string
                         return env_attr
                 if hasattr(config_instance, attribute):
                     return getattr(config_instance, attribute)

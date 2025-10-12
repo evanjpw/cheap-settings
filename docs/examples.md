@@ -95,7 +95,7 @@ print(f"Database: {ProductionConfig.db_host}:{ProductionConfig.db_port}")
 
 ## Type Conversion
 
-All basic Python types are supported:
+All basic Python types are supported, with or without type annotations:
 
 ```python
 from pathlib import Path
@@ -103,20 +103,28 @@ from typing import Optional
 from cheap_settings import CheapSettings
 
 class TypedSettings(CheapSettings):
-    # Basic types
+    # Explicit type annotations
     text: str = "default"
     number: int = 42
     ratio: float = 3.14
     enabled: bool = False
 
+    # Type inference from defaults (no annotations needed!)
+    host = "localhost"  # Infers str
+    port = 8080  # Infers int
+    timeout = 30.5  # Infers float
+    debug = False  # Infers bool
+
     # Path support
     config_dir: Path = Path("/etc/myapp")
+    # Or inferred:
+    log_dir = Path("/var/log")  # Infers Path
 
     # JSON types
     tags: list = ["python", "config"]
     metadata: dict = {"version": 1}
 
-    # Optional types
+    # Optional types (need explicit annotation)
     api_key: Optional[str] = None
 
 # Environment variables are converted automatically:

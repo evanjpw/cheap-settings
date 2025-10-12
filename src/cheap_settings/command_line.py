@@ -127,8 +127,8 @@ def _incorporate_parsed_arguments(
 
 
 def parse_command_line_arguments(
-    config_instance: "MetaCheapSettings.ConfigInstance",
-    cli_config_instance: "MetaCheapSettings.ConfigInstance",
+    config_instance: "MetaCheapSettings.ConfigInstance",  # noqa F821
+    cli_config_instance: "MetaCheapSettings.ConfigInstance",  # noqa F821
     parser: Optional[argparse.ArgumentParser] = None,
     args: Optional[Sequence[str]] = None,
 ) -> argparse.Namespace:

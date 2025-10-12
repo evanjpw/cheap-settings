@@ -43,6 +43,7 @@ from typing import Optional
 from cheap_settings import CheapSettings
 
 class MySettings(CheapSettings):
+    # With explicit type annotations
     MAX_ANNOYANCE: int = 0
     ANNOYANCE_FACTOR: float = 0.0
     ANNOYANCE_NAME: str = ""
@@ -51,6 +52,11 @@ class MySettings(CheapSettings):
     HOW_ANNOYED_EACH_DAY: dict = {}
     # Python 3.10+ union syntax also works: `OPTIONAL_ANNOYANCE: float | None = None`
     OPTIONAL_ANNOYANCE: Optional[float] = None
+
+    # Or let cheap-settings infer types from the defaults (These work exactly the same as above):
+    max_annoyance_inferred = 0  # Infers int
+    annoyance_factor_inferred = 0.0  # Infers float
+    annoyance_name_inferred = ""  # Infers str
 
 # As you would expect:
 assert MySettings.MAX_ANNOYANCE == 0
@@ -194,7 +200,6 @@ Those would be in the [examples](https://github.com/evanjpw/cheap-settings/tree/
 ## TBD - Features to be Added
 
 * Settings without initializers
-* Use the initializer type as the setting type (no type hint needed)
 * Selectable different configurations for different environments (for example, DEV, STAGING, PROD)
 * Expanded type support: `datetime`, `date`, `time`, `Decimal`, `UUID`, custom types with
  `from_string()` methods
