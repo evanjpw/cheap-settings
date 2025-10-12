@@ -37,13 +37,14 @@ classifiers = [
 dependencies = []
 
 [project.urls]
+homepage = "https://github.com/evanjpw/cheap-settings"
 repository = "https://github.com/evanjpw/cheap-settings"
 documentation = "https://evanjpw.github.io/cheap-settings/"
 issues = "https://github.com/evanjpw/cheap-settings/issues"
-# homepage = "https://"
 # TODO: add a changelog
 # changelog = "https://github.com/evanjpw/cheap-settings/blob/master/CHANGELOG.md"
 
+# TODO: Should probably use `[dependency-groups]` & `dev`, `docs`, & `test`, but who has time for that?
 [project.optional-dependencies]
 dev = [
     "pytest>=7.0.0",
@@ -58,6 +59,35 @@ dev = [
 
 [tool.isort]
 profile = "black"
+
+[tool.interrogate]
+ignore-init-method = true
+ignore-init-module = false
+ignore-magic = true
+ignore-semiprivate = false
+ignore-private = false
+ignore-property-decorators = false
+ignore-module = false
+ignore-nested-functions = true
+ignore-nested-classes = true
+ignore-setters = false
+fail-under = 95
+exclude = ["setup.py", "docs", "build"]
+ignore-regex = ["^get$", "^mock_.*", ".*BaseClass.*"]
+verbose = 0
+quiet = false
+whitelist-regex = []
+color = true
+
+[tool.pydoclint]
+style = "google"
+exclude = '\.git|tests'
+quiet = true
+require-return-section-when-returning-nothing = false
+arg-type-hints-in-docstring = false
+#check-return-types = false
+#skip-checking-raises = true
+#check-class-attributes = false
 
 [tool.hatch.build]
 exclude = [

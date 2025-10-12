@@ -1,6 +1,6 @@
 import argparse
 import sys
-from typing import Optional, get_args, get_origin
+from typing import Optional, Sequence, get_args, get_origin
 
 
 def _convert_to_argument_name(name: str) -> str:
@@ -10,6 +10,7 @@ def _convert_to_argument_name(name: str) -> str:
 
 
 def _bool_str_to_bool(value: str) -> bool:
+    """Convert a string to a boolean value."""
     normalized_value = value.lower()
     if normalized_value in ("true", "1", "yes", "on"):
         return True
@@ -126,10 +127,10 @@ def _incorporate_parsed_arguments(
 
 
 def parse_command_line_arguments(
-    config_instance,
-    cli_config_instance,
+    config_instance: "MetaCheapSettings.ConfigInstance",
+    cli_config_instance: "MetaCheapSettings.ConfigInstance",
     parser: Optional[argparse.ArgumentParser] = None,
-    args=None,
+    args: Optional[Sequence[str]] = None,
 ) -> argparse.Namespace:
     """Creates an argument parser from the config instance, then
     Parses the command line arguments and returns an argparse.Namespace.
@@ -139,6 +140,8 @@ def parse_command_line_arguments(
         cli_config_instance: The config instance to store CLI values
         parser: Optional custom ArgumentParser
         args: Optional list of arguments to parse (if None, uses sys.argv)
+    Returns:
+        argparse.Namespace: The parsed arguments
     """
 
     parser = _get_arg_parser(config_instance, parser)

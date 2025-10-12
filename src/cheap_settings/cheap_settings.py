@@ -3,7 +3,7 @@ import json
 import os
 import sys
 from pathlib import Path
-from typing import Union, get_args, get_origin
+from typing import Any, Union, get_args, get_origin
 
 from .command_line import _bool_str_to_bool, parse_command_line_arguments
 
@@ -45,7 +45,7 @@ def _parse_json(value: str, expected_type: type, setting_name: str):
     return parsed_value
 
 
-def _convert_value_to_type(value, to_type, name: str):
+def _convert_value_to_type(value: Any, to_type: type, name: str) -> Any:
     """Convert a string value from environment to the specified type.
 
     Handles basic types (int, float, bool, str, list, dict) as well as
@@ -58,7 +58,7 @@ def _convert_value_to_type(value, to_type, name: str):
         name: The name of the setting (for error messages)
 
     Returns:
-        The converted value in the appropriate type
+        Any: The converted value in the appropriate type
 
     Raises:
         ValueError: If the value cannot be converted to the specified type
@@ -292,6 +292,7 @@ class MetaCheapSettings(type):
         return type.__getattribute__(cls, attribute)
 
     def __setattr__(cls, attribute, value):
+        """Set attribute value."""
         if attribute == "__config_instance":
             object.__setattr__(cls, attribute, value)
         else:
@@ -388,11 +389,12 @@ class CheapSettings(metaclass=MetaCheapSettings):
         pass
 
     @classmethod
-    def to_static(cls):
+    def to_static(cls) -> object:
         """Create a static snapshot of current settings as a regular class.
-
-        Returns a new class with all settings resolved to their current values.
         The returned class is a regular Python class without any dynamic behavior.
+
+        Returns:
+             object: a new class with all settings resolved to their current values.
 
         This is useful for:
         - Performance-critical code where attribute access overhead matters

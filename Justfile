@@ -1,5 +1,7 @@
 #!/usr/bin/env just  --justfile
 
+default:
+
 # Run tests
 test:
     uv run pytest tests/ -v
@@ -51,3 +53,6 @@ release-prep: check clean build
     @echo "✓ Build artifacts cleaned"
     @echo "✓ Package built"
     @echo "Ready to publish! Run: just publish"
+
+bump *ARGS:
+    uvx bump-my-version {{ARGS}}
