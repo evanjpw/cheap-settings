@@ -724,19 +724,7 @@ types). Complex types (list, dict) are parsed from JSON strings.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/cheap_settings/cheap_settings.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">333</span>
-<span class="normal">334</span>
-<span class="normal">335</span>
-<span class="normal">336</span>
-<span class="normal">337</span>
-<span class="normal">338</span>
-<span class="normal">339</span>
-<span class="normal">340</span>
-<span class="normal">341</span>
-<span class="normal">342</span>
-<span class="normal">343</span>
-<span class="normal">344</span>
-<span class="normal">345</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">345</span>
 <span class="normal">346</span>
 <span class="normal">347</span>
 <span class="normal">348</span>
@@ -859,7 +847,20 @@ types). Complex types (list, dict) are parsed from JSON strings.</p>
 <span class="normal">465</span>
 <span class="normal">466</span>
 <span class="normal">467</span>
-<span class="normal">468</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">CheapSettings</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">MetaCheapSettings</span><span class="p">):</span>
+<span class="normal">468</span>
+<span class="normal">469</span>
+<span class="normal">470</span>
+<span class="normal">471</span>
+<span class="normal">472</span>
+<span class="normal">473</span>
+<span class="normal">474</span>
+<span class="normal">475</span>
+<span class="normal">476</span>
+<span class="normal">477</span>
+<span class="normal">478</span>
+<span class="normal">479</span>
+<span class="normal">480</span>
+<span class="normal">481</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">CheapSettings</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">MetaCheapSettings</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for simple, environment-variable-driven configuration.</span>
 
 <span class="sd">    Subclass this and define your settings as typed class attributes:</span>
@@ -917,11 +918,12 @@ types). Complex types (list, dict) are parsed from JSON strings.</p>
         <span class="k">pass</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">to_static</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_static</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a static snapshot of current settings as a regular class.</span>
-
-<span class="sd">        Returns a new class with all settings resolved to their current values.</span>
 <span class="sd">        The returned class is a regular Python class without any dynamic behavior.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">             object: a new class with all settings resolved to their current values.</span>
 
 <span class="sd">        This is useful for:</span>
 <span class="sd">        - Performance-critical code where attribute access overhead matters</span>
@@ -1027,15 +1029,15 @@ types). Complex types (list, dict) are parsed from JSON strings.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/cheap_settings/cheap_settings.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">350</span>
-<span class="normal">351</span>
-<span class="normal">352</span>
-<span class="normal">353</span>
-<span class="normal">354</span>
-<span class="normal">355</span>
-<span class="normal">356</span>
-<span class="normal">357</span>
-<span class="normal">358</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">362</span>
+<span class="normal">363</span>
+<span class="normal">364</span>
+<span class="normal">365</span>
+<span class="normal">366</span>
+<span class="normal">367</span>
+<span class="normal">368</span>
+<span class="normal">369</span>
+<span class="normal">370</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Allow instances to access class-level settings.&quot;&quot;&quot;</span>
     <span class="c1"># First try regular instance attribute access</span>
     <span class="k">try</span><span class="p">:</span>
@@ -1066,11 +1068,11 @@ types). Complex types (list, dict) are parsed from JSON strings.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/cheap_settings/cheap_settings.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">378</span>
-<span class="normal">379</span>
-<span class="normal">380</span>
-<span class="normal">381</span>
-<span class="normal">382</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">390</span>
+<span class="normal">391</span>
+<span class="normal">392</span>
+<span class="normal">393</span>
+<span class="normal">394</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the state for pickling - returns a dict of all settings.&quot;&quot;&quot;</span>
     <span class="c1"># For CheapSettings, we don&#39;t actually have instance state</span>
     <span class="c1"># All settings are class-level, so we just return an empty dict</span>
@@ -1097,23 +1099,23 @@ types). Complex types (list, dict) are parsed from JSON strings.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/cheap_settings/cheap_settings.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">360</span>
-<span class="normal">361</span>
-<span class="normal">362</span>
-<span class="normal">363</span>
-<span class="normal">364</span>
-<span class="normal">365</span>
-<span class="normal">366</span>
-<span class="normal">367</span>
-<span class="normal">368</span>
-<span class="normal">369</span>
-<span class="normal">370</span>
-<span class="normal">371</span>
-<span class="normal">372</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">372</span>
 <span class="normal">373</span>
 <span class="normal">374</span>
 <span class="normal">375</span>
-<span class="normal">376</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">__reduce__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="normal">376</span>
+<span class="normal">377</span>
+<span class="normal">378</span>
+<span class="normal">379</span>
+<span class="normal">380</span>
+<span class="normal">381</span>
+<span class="normal">382</span>
+<span class="normal">383</span>
+<span class="normal">384</span>
+<span class="normal">385</span>
+<span class="normal">386</span>
+<span class="normal">387</span>
+<span class="normal">388</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">__reduce__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Enable pickling by returning class and state information.&quot;&quot;&quot;</span>
     <span class="c1"># Try to return the class directly if it can be imported</span>
     <span class="k">try</span><span class="p">:</span>
@@ -1152,11 +1154,11 @@ types). Complex types (list, dict) are parsed from JSON strings.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/cheap_settings/cheap_settings.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">384</span>
-<span class="normal">385</span>
-<span class="normal">386</span>
-<span class="normal">387</span>
-<span class="normal">388</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">396</span>
+<span class="normal">397</span>
+<span class="normal">398</span>
+<span class="normal">399</span>
+<span class="normal">400</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Restore state when unpickling.&quot;&quot;&quot;</span>
     <span class="c1"># Nothing to restore for CheapSettings instances</span>
     <span class="c1"># All settings are accessed from the class level</span>
@@ -1193,20 +1195,7 @@ instance of argparse.Namespace). Can raise various exceptions.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/cheap_settings/cheap_settings.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">440</span>
-<span class="normal">441</span>
-<span class="normal">442</span>
-<span class="normal">443</span>
-<span class="normal">444</span>
-<span class="normal">445</span>
-<span class="normal">446</span>
-<span class="normal">447</span>
-<span class="normal">448</span>
-<span class="normal">449</span>
-<span class="normal">450</span>
-<span class="normal">451</span>
-<span class="normal">452</span>
-<span class="normal">453</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">453</span>
 <span class="normal">454</span>
 <span class="normal">455</span>
 <span class="normal">456</span>
@@ -1221,7 +1210,20 @@ instance of argparse.Namespace). Can raise various exceptions.</p>
 <span class="normal">465</span>
 <span class="normal">466</span>
 <span class="normal">467</span>
-<span class="normal">468</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">468</span>
+<span class="normal">469</span>
+<span class="normal">470</span>
+<span class="normal">471</span>
+<span class="normal">472</span>
+<span class="normal">473</span>
+<span class="normal">474</span>
+<span class="normal">475</span>
+<span class="normal">476</span>
+<span class="normal">477</span>
+<span class="normal">478</span>
+<span class="normal">479</span>
+<span class="normal">480</span>
+<span class="normal">481</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">set_config_from_command_line</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">arg_parser</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates command line arguments (as flags) that correspond to the settings, &amp; parses them, setting the</span>
 <span class="sd">    config values based on them. Settings overridden by command line arguments take precedence over any</span>
@@ -1271,10 +1273,32 @@ instance of argparse.Namespace). Can raise various exceptions.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Create a static snapshot of current settings as a regular class.</p>
-<p>Returns a new class with all settings resolved to their current values.
+        <p>Create a static snapshot of current settings as a regular class.
 The returned class is a regular Python class without any dynamic behavior.</p>
-<p>This is useful for:
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>object</code></td>            <td>
+                  <code><span title="typing.Type">Type</span>[<span title="typing.Any">Any</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>a new class with all settings resolved to their current values.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>This is useful for:
 - Performance-critical code where attribute access overhead matters
 - Situations where you want to freeze settings at a point in time
 - Working around edge cases with the dynamic metaclass behavior</p>
@@ -1298,19 +1322,7 @@ StaticSettings.host  # Just a regular class attribute
 
             <details class="quote">
               <summary>Source code in <code>src/cheap_settings/cheap_settings.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">390</span>
-<span class="normal">391</span>
-<span class="normal">392</span>
-<span class="normal">393</span>
-<span class="normal">394</span>
-<span class="normal">395</span>
-<span class="normal">396</span>
-<span class="normal">397</span>
-<span class="normal">398</span>
-<span class="normal">399</span>
-<span class="normal">400</span>
-<span class="normal">401</span>
-<span class="normal">402</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">402</span>
 <span class="normal">403</span>
 <span class="normal">404</span>
 <span class="normal">405</span>
@@ -1346,12 +1358,26 @@ StaticSettings.host  # Just a regular class attribute
 <span class="normal">435</span>
 <span class="normal">436</span>
 <span class="normal">437</span>
-<span class="normal">438</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">to_static</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+<span class="normal">438</span>
+<span class="normal">439</span>
+<span class="normal">440</span>
+<span class="normal">441</span>
+<span class="normal">442</span>
+<span class="normal">443</span>
+<span class="normal">444</span>
+<span class="normal">445</span>
+<span class="normal">446</span>
+<span class="normal">447</span>
+<span class="normal">448</span>
+<span class="normal">449</span>
+<span class="normal">450</span>
+<span class="normal">451</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">to_static</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a static snapshot of current settings as a regular class.</span>
-
-<span class="sd">    Returns a new class with all settings resolved to their current values.</span>
 <span class="sd">    The returned class is a regular Python class without any dynamic behavior.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">         object: a new class with all settings resolved to their current values.</span>
 
 <span class="sd">    This is useful for:</span>
 <span class="sd">    - Performance-critical code where attribute access overhead matters</span>
