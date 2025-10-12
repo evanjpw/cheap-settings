@@ -6,6 +6,7 @@ _A lightweight, low footprint settings system_
   [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
   [![Python Versions](https://img.shields.io/pypi/pyversions/cheap-settings.svg)](https://pypi.org/project/cheap-settings/)
   [![Downloads](https://pepy.tech/badge/cheap-settings)](https://pepy.tech/project/cheap-settings)
+  [![GitHub Pages - Documentation](https://img.shields.io/badge/GitHub_Pages-Documentation-2ea44f?logo=GitHub)](https://evanjpw.github.io/cheap-settings/)
 
 `cheap-settings` is a Python package for providing a very simple, very low impact, configuration. The Python
 configuration & settings landscape is virtually overflowing with clever, advanced, flexible solutions that cover
@@ -196,6 +197,10 @@ pip install cheap-settings
 ## Examples
 
 Those would be in the [examples](https://github.com/evanjpw/cheap-settings/tree/main/examples) directory.
+
+## Documentation
+
+Visit [the documentation site](https://evanjpw.github.io/cheap-settings/) on GitHub Pages.
 
 ## TBD - Features to be Added
 
