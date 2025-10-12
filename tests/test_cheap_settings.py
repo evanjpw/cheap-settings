@@ -120,7 +120,7 @@ class TestBasicFunctionality:
 
         monkeypatch.setenv("ITEMS", "not valid json")
         with pytest.raises(
-            ValueError, match=r"Invalid JSON in environment variable ITEMS"
+            ValueError, match=r"Invalid JSON in ITEMS environment variable"
         ):
             _ = MySettings.items
 
@@ -133,7 +133,7 @@ class TestBasicFunctionality:
         monkeypatch.setenv("ITEMS", json.dumps({"key": "value"}))
         with pytest.raises(
             ValueError,
-            match=r"Invalid JSON type in environment variable ITEMS. Expected list, but got dict.",
+            match=r"JSON type mismatch in ITEMS",
         ):
             _ = MySettings.items
 
@@ -146,7 +146,7 @@ class TestBasicFunctionality:
         monkeypatch.setenv("CONFIG", json.dumps(["a", "b"]))
         with pytest.raises(
             ValueError,
-            match=r"Invalid JSON type in environment variable CONFIG. Expected dict, but got list.",
+            match=r"JSON type mismatch in CONFIG",
         ):
             _ = MySettings.config
 

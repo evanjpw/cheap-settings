@@ -32,15 +32,55 @@ def _parse_json(value: str, expected_type: type, setting_name: str):
     try:
         parsed_value = json.loads(value)
     except json.JSONDecodeError as e:
+        # Provide specific guidance based on the error and value
+        error_str = str(e)
+        if "Expecting property name" in error_str or (
+            "Expecting value" in error_str and "'" in value
+        ):
+            # Likely single quotes or unquoted strings
+            example = (
+                '{"key": "value"}' if expected_type is dict else '["item1", "item2"]'
+            )
+            hint = f"Use double quotes for strings in JSON. Example: {example}"
+        elif "Expecting value" in error_str and not value.strip():
+            hint = "Empty values are not valid JSON. Use '[]' for empty list or '{}' for empty dict"
+        elif "Extra data" in error_str:
+            hint = "Multiple JSON values found. Wrap them in an array: [value1, value2]"
+        else:
+            # Show what they provided vs what's expected
+            example = (
+                '["item1", "item2"]' if expected_type is list else '{"key": "value"}'
+            )
+            hint = f"Expected format: {example}"
+
         raise ValueError(
-            f"Invalid JSON in environment variable {setting_name.upper()} (expected {expected_type.__name__}): {e}. "
-            f'Ensure the value is valid JSON (e.g., ["item1", "item2"] for a list).'
+            f"Invalid JSON in {setting_name.upper()} environment variable.\n"
+            f"  Your value: {value!r}\n"
+            f"  JSON error: {e}\n"
+            f"  Hint: {hint}"
         ) from e
 
     if not isinstance(parsed_value, expected_type):
+        # Provide specific examples for type mismatches
+        if expected_type is list and isinstance(parsed_value, dict):
+            hint = f"To use a dict, change the type annotation to 'dict'. For a list, use: {json.dumps([parsed_value])}"
+        elif expected_type is dict and isinstance(parsed_value, list):
+            hint = f"To use a list, change the type annotation to 'list'. For a dict, try: {json.dumps(dict(enumerate(parsed_value)))}"
+        else:
+            type_examples = {
+                list: '["value1", "value2"]',
+                dict: '{"key": "value"}',
+            }
+            hint = (
+                f"Use {type_examples.get(expected_type, expected_type.__name__)} format"
+            )
+
         raise ValueError(
-            f"Invalid JSON type in environment variable {setting_name.upper()}. "
-            f"Expected {expected_type.__name__}, but got {type(parsed_value).__name__}."
+            f"JSON type mismatch in {setting_name.upper()} environment variable.\n"
+            f"  Expected: {expected_type.__name__}\n"
+            f"  Got: {type(parsed_value).__name__}\n"
+            f"  Your value: {json.dumps(parsed_value)}\n"
+            f"  Hint: {hint}"
         )
     return parsed_value
 
