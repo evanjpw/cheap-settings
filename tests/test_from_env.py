@@ -1,9 +1,5 @@
 """Test the from_env() class method."""
 
-import os
-
-import pytest
-
 from cheap_settings import CheapSettings
 
 
