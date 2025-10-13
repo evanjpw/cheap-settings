@@ -491,6 +491,47 @@ class CheapSettings(metaclass=MetaCheapSettings):
         return static_class
 
     @classmethod
+    def from_env(cls) -> object:
+        """Create a static snapshot with only values from environment variables.
+
+        Returns a regular Python class containing only the settings that are
+        explicitly set in environment variables, ignoring all defaults.
+
+        Returns:
+            object: A new class with only environment-sourced settings.
+
+        This is useful for:
+        - Debugging which settings are coming from the environment
+        - Creating minimal configuration objects
+        - Validating environment-only deployments
+
+        Example:
+            >>> os.environ['HOST'] = 'example.com'
+            >>> EnvOnly = MySettings.from_env()
+            >>> EnvOnly.host  # 'example.com'
+            >>> hasattr(EnvOnly, 'port')  # False (not in env)
+        """
+        attrs = {}
+        config_instance = object.__getattribute__(cls, "__config_instance")
+        annotations = getattr(config_instance, "__annotations__", {})
+
+        # Only include attributes that have environment variables set
+        for name, type_hint in annotations.items():
+            env_name = name.upper()
+            if env_name in os.environ:
+                # Use the same logic as __getattribute__ to get the converted value
+                try:
+                    value = getattr(cls, name)
+                    attrs[name] = value
+                except (AttributeError, ValueError):
+                    # Skip if we can't get or convert the value
+                    pass
+
+        # Create a simple class with just the env values
+        env_class = type(f"{cls.__name__}FromEnv", (), attrs)
+        return env_class
+
+    @classmethod
     def set_config_from_command_line(cls, arg_parser=None, args=None):
         """Creates command line arguments (as flags) that correspond to the settings, & parses them, setting the
         config values based on them. Settings overridden by command line arguments take precedence over any

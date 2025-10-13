@@ -75,3 +75,14 @@ For performance-critical code where attribute access overhead matters, use `to_s
 Settings = MyDynamicSettings.to_static()
 # Now Settings.value is just a regular class attribute
 ```
+
+### Environment-Only Settings
+
+The `from_env()` method returns a class containing only settings that are explicitly set in environment variables:
+
+```python
+EnvOnly = MySettings.from_env()
+# EnvOnly only has attributes for settings with environment variables
+```
+
+This is useful for debugging deployments or validating environment configuration.
