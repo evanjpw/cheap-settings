@@ -86,3 +86,23 @@ EnvOnly = MySettings.from_env()
 ```
 
 This is useful for debugging deployments or validating environment configuration.
+
+### Working with Credentials and .env Files
+
+For sensitive settings like API keys or passwords, use `Optional` types with no default:
+
+```python
+class Settings(CheapSettings):
+    api_key: Optional[str] = None
+    db_password: Optional[str] = None
+```
+
+Since `cheap-settings` reads environment variables dynamically, it works seamlessly with `python-dotenv`:
+
+```python
+from dotenv import load_dotenv
+from cheap_settings import CheapSettings
+
+load_dotenv()  # Load .env file into environment
+# Settings will automatically pick up the values
+```
