@@ -29,6 +29,13 @@ class ComplexSettings(CheapSettings):
     optional: Optional[str] = None
 
 
+class SettingsWithUninitialized(CheapSettings):
+    """Settings with uninitialized values for testing."""
+
+    initialized: str = "default"
+    uninitialized: str
+
+
 class BaseSettings(CheapSettings):
     """Base settings for inheritance testing."""
 
@@ -166,3 +173,25 @@ class TestPickleSupport:
         unpickled = pickle.loads(pickled)
         assert unpickled == value
         assert isinstance(unpickled, expected_type)
+
+    def test_pickle_with_uninitialized_settings(self, monkeypatch):
+        """Test pickling classes with uninitialized settings."""
+
+        # Test class pickling
+        pickled_class = pickle.dumps(SettingsWithUninitialized)
+        UnpickledClass = pickle.loads(pickled_class)
+
+        assert UnpickledClass.initialized == "default"
+        assert UnpickledClass.uninitialized is None
+
+        # Test with environment variable
+        monkeypatch.setenv("UNINITIALIZED", "from_env")
+        assert UnpickledClass.uninitialized == "from_env"
+
+        # Test instance pickling
+        instance = SettingsWithUninitialized()
+        pickled_instance = pickle.dumps(instance)
+        unpickled_instance = pickle.loads(pickled_instance)
+
+        assert unpickled_instance.initialized == "default"
+        assert unpickled_instance.uninitialized == "from_env"

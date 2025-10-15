@@ -159,6 +159,14 @@ def _convert_value_to_type(value: Any, to_type: type, name: str) -> Any:
     return value
 
 
+class _UninitializedSetting:
+    def __repr__(self):
+        return "UninitializedSetting"
+
+
+_UNINITIALIZED = _UninitializedSetting()
+
+
 # TODO: Implement __delattr__
 class MetaCheapSettings(type):
     """Metaclass that implements the settings behavior for CheapSettings.
@@ -192,16 +200,21 @@ class MetaCheapSettings(type):
                 parent_config = object.__getattribute__(base, "__config_instance")
                 if hasattr(parent_config, "__annotations__"):
                     annotations.update(parent_config.__annotations__)
-                # Also copy parent attributes
+                # Also copy parent attributes (skip internal ones)
                 for attr in dir(parent_config):
-                    if not attr.startswith("__"):
+                    if (
+                        not attr.startswith("__")
+                        and hasattr(parent_config, attr)
+                        and not callable(getattr(parent_config, attr))
+                    ):
                         setattr(config_instance, attr, getattr(parent_config, attr))
             except AttributeError:
                 # Base class doesn't have __config_instance, skip it
                 continue
 
         # Add current class annotations (override parent ones)
-        annotations.update(dct.pop("__annotations__", {}))
+        current_annotations = dct.pop("__annotations__", {})
+        annotations.update(current_annotations)
         config_instance.__annotations__ = annotations
 
         # Create a list of keys to avoid modifying dict during iteration
@@ -226,6 +239,19 @@ class MetaCheapSettings(type):
 
         for key in keys_to_move:
             setattr(config_instance, key, dct.pop(key))
+
+        # Handle annotations without defaults (settings without initializers)
+        for annotation_key, annotation_value in current_annotations.items():
+            if not hasattr(config_instance, annotation_key):
+                if type(None) in get_args(annotation_value):
+                    value = None
+                else:
+                    value = _UNINITIALIZED
+                setattr(config_instance, annotation_key, value)
+
+        # Set the flag after all inheritance copying is done
+        object.__setattr__(config_instance, "_raise_on_uninitialized_setting", False)
+
         dct["__config_instance"] = config_instance
 
         # Create the class
@@ -337,7 +363,13 @@ class MetaCheapSettings(type):
                         # No annotation and no default, return as string
                         return env_attr
                 if hasattr(config_instance, attribute):
-                    return getattr(config_instance, attribute)
+                    attr_value = getattr(config_instance, attribute)
+                    if attr_value is _UNINITIALIZED:
+                        if config_instance._raise_on_uninitialized_setting:
+                            raise AttributeError(f"{attribute} is not initialized")
+                        else:
+                            attr_value = None
+                    return attr_value
 
         # If not found in any config instance, use default behavior
         return type.__getattribute__(cls, attribute)
@@ -530,6 +562,23 @@ class CheapSettings(metaclass=MetaCheapSettings):
         # Create a simple class with just the env values
         env_class = type(f"{cls.__name__}FromEnv", (), attrs)
         return env_class
+
+    @classmethod
+    def set_raise_on_uninitialized(cls, value: bool = True):
+        """Set whether to raise an error when accessing uninitialized settings.
+
+        Args:
+            value: If True, accessing uninitialized settings raises AttributeError.
+                   If False, accessing uninitialized settings returns None (default).
+
+        Example:
+            >>> class MySettings(CheapSettings):
+            ...     required_setting: str  # No default
+            >>> MySettings.set_raise_on_uninitialized(True)
+            >>> MySettings.required_setting  # Raises AttributeError
+        """
+        config_instance = object.__getattribute__(cls, "__config_instance")
+        object.__setattr__(config_instance, "_raise_on_uninitialized_setting", value)
 
     @classmethod
     def set_config_from_command_line(cls, arg_parser=None, args=None):
