@@ -2,6 +2,8 @@ import argparse
 import sys
 from typing import Optional, Sequence, get_args, get_origin
 
+# TODO: Add dict/list support to command_line.py using the existing JSON parsing logic.
+
 
 def _convert_to_argument_name(name: str) -> str:
     """Convert an attribute name to an argument name."""
@@ -44,6 +46,7 @@ def _get_arg_parser(
         if name.startswith("_"):
             continue
 
+        # TODO: Document this behavior
         # Check for reserved names
         if name.lower() in reserved_args:
             raise ValueError(
@@ -75,7 +78,7 @@ def _get_arg_parser(
                 argument_type = _bool_str_to_bool
             elif argument_default is False:
                 argument_action = "store_true"
-            elif argument_default is True:
+            elif argument_default is True:  # No, this expression cannot be simplified
                 argument_name = "no-" + argument_name
                 argument_action = "store_false"
             else:

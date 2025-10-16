@@ -281,6 +281,7 @@ class TestCustomParser:
         assert MySettings.port == 8080
         assert result.version is True  # Custom arg
 
+    # TODO: Document this behavior
     def test_parser_conflict_handling(self):
         """Test that conflicting arguments are handled properly"""
 
@@ -433,6 +434,40 @@ class TestIntegration:
         assert MySettings.port == 3000  # CLI (overrides env)
         assert MySettings.debug is True  # Env (no CLI)
         assert MySettings.timeout == 60  # Env (no CLI)
+
+    def test_command_line_restores_defaults(self, monkeypatch):
+        """Test that CLI > env even when restoring defaults"""
+
+        class MySettings(CheapSettings):
+            host: str = "localhost"
+            port: Optional[int] = None
+            debug: bool = False
+            timeout: int = 30
+
+        # Set some env vars
+        monkeypatch.setenv("HOST", "cli.example.com")
+        monkeypatch.setenv("PORT", "9090")
+        monkeypatch.setenv("DEBUG", "true")
+        monkeypatch.setenv("TIMEOUT", "60")
+
+        # Override even when restoring previous value
+        MySettings.set_config_from_command_line(
+            args=[
+                "--host",
+                "localhost",
+                "--port",
+                "none",
+                "--debug",
+                "False",
+                "--timeout",
+                "30",
+            ]
+        )
+
+        assert MySettings.host == "localhost"  # CLI (overrides env with default)
+        assert MySettings.port is None  # CLI (overrides env)
+        assert MySettings.debug is False  # (overrides Env)
+        assert MySettings.timeout == 30  # (overrides Env)
 
     def test_multiple_calls_to_set_config(self):
         """Test that multiple calls to set_config_from_command_line work correctly"""

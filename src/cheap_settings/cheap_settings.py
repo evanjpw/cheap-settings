@@ -3,7 +3,7 @@ import json
 import os
 import sys
 from pathlib import Path
-from typing import Any, Union, get_args, get_origin
+from typing import Any, Dict, Union, get_args, get_origin
 
 from .command_line import _bool_str_to_bool, parse_command_line_arguments
 
@@ -11,7 +11,7 @@ from .command_line import _bool_str_to_bool, parse_command_line_arguments
 if sys.version_info >= (3, 10):
     from types import UnionType
 else:
-    UnionType = None
+    UnionType = None  # noqa
 
 
 def _reconstruct_settings_instance(module_name, class_name):
@@ -67,7 +67,7 @@ def _parse_json(value: str, expected_type: type, setting_name: str):
         elif expected_type is dict and isinstance(parsed_value, list):
             hint = f"To use a list, change the type annotation to 'list'. For a dict, try: {json.dumps(dict(enumerate(parsed_value)))}"
         else:
-            type_examples = {
+            type_examples: Dict[type, Any] = {
                 list: '["value1", "value2"]',
                 dict: '{"key": "value"}',
             }
@@ -168,6 +168,7 @@ _UNINITIALIZED = _UninitializedSetting()
 
 
 # TODO: Implement __delattr__
+# TODO: ¿¿¿¿¿¿¿ POSSIBLY: Refactor the metaclass to use __init_subclass__ and descriptors for maintainability. ???????
 class MetaCheapSettings(type):
     """Metaclass that implements the settings behavior for CheapSettings.
 
@@ -358,7 +359,7 @@ class MetaCheapSettings(type):
                         if hasattr(config_instance, attribute):
                             default_value = getattr(config_instance, attribute)
                             inferred_type = type(default_value)
-                            # Special case: Path instances have concrete types like PosixPath
+                            # Special case: Path instances have concrete types like PosixPath,
                             # but we want to treat them as Path for conversion
                             if isinstance(default_value, Path):
                                 inferred_type = Path
@@ -370,7 +371,7 @@ class MetaCheapSettings(type):
                 if hasattr(config_instance, attribute):
                     attr_value = getattr(config_instance, attribute)
                     if attr_value is _UNINITIALIZED:
-                        if config_instance._MetaCheapSettings__raise_on_uninitialized_setting:
+                        if config_instance._MetaCheapSettings__raise_on_uninitialized_setting:  # noqa
                             raise AttributeError(f"{attribute} is not initialized")
                         else:
                             attr_value = None
