@@ -250,7 +250,12 @@ class MetaCheapSettings(type):
                 setattr(config_instance, annotation_key, value)
 
         # Set the flag after all inheritance copying is done
-        object.__setattr__(config_instance, "_raise_on_uninitialized_setting", False)
+        # Use the mangled name to prevent user settings from conflicting
+        # TODO: Consider revisiting this name mangling approach - alternatives include
+        # unique prefixes, nested objects, or __slots__ on ConfigInstance
+        object.__setattr__(
+            config_instance, "_MetaCheapSettings__raise_on_uninitialized_setting", False
+        )
 
         dct["__config_instance"] = config_instance
 
@@ -365,7 +370,7 @@ class MetaCheapSettings(type):
                 if hasattr(config_instance, attribute):
                     attr_value = getattr(config_instance, attribute)
                     if attr_value is _UNINITIALIZED:
-                        if config_instance._raise_on_uninitialized_setting:
+                        if config_instance._MetaCheapSettings__raise_on_uninitialized_setting:
                             raise AttributeError(f"{attribute} is not initialized")
                         else:
                             attr_value = None
@@ -578,7 +583,9 @@ class CheapSettings(metaclass=MetaCheapSettings):
             >>> MySettings.required_setting  # Raises AttributeError
         """
         config_instance = object.__getattribute__(cls, "__config_instance")
-        object.__setattr__(config_instance, "_raise_on_uninitialized_setting", value)
+        object.__setattr__(
+            config_instance, "_MetaCheapSettings__raise_on_uninitialized_setting", value
+        )
 
     @classmethod
     def set_config_from_command_line(cls, arg_parser=None, args=None):

@@ -56,3 +56,5 @@ release-prep: check clean build
 
 bump *ARGS:
     uvx bump-my-version {{ARGS}}
+bump-bump *ARGS:
+    uvx bump-my-version bump --allow-dirty {{ARGS}}

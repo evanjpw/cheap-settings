@@ -115,6 +115,10 @@ TestSettings.set_config_from_command_line()
 assert TestSettings.host == "example.com"  # CLI overrides env vars and defaults
 ```
 
+**Settings Without Initializers**
+
+You can define settings with type annotations but no default values - see [the documentation](https://evanjpw.github.io/cheap-settings/) for details.
+
 **User Request**: Pickling
 
 A user asked for `cheap-settings` to support pickling (because [ray](https://github.com/ray-project/ray)). Done! You can
@@ -204,7 +208,6 @@ Visit [the documentation site](https://evanjpw.github.io/cheap-settings/) on Git
 
 ## TBD - Features to be Added
 
-* Settings without initializers
 * Selectable different configurations for different environments (for example, DEV, STAGING, PROD)
 * Expanded type support: `datetime`, `date`, `time`, `Decimal`, `UUID`, custom types with
  `from_string()` methods

@@ -1,9 +1,6 @@
 """Test settings without initializers (uninitialized settings)."""
 
-import os
 from typing import Optional
-
-import pytest
 
 from cheap_settings import CheapSettings
 

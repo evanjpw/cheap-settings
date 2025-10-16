@@ -87,6 +87,37 @@ EnvOnly = MySettings.from_env()
 
 This is useful for debugging deployments or validating environment configuration.
 
+### Settings Without Initializers
+
+You can define settings with type annotations but no default values:
+
+```python
+class MySettings(CheapSettings):
+    required_api_key: str  # No default value
+    optional_timeout: Optional[int]  # No default, Optional type
+```
+
+By default, accessing uninitialized settings returns `None`:
+
+```python
+assert MySettings.required_api_key is None
+assert MySettings.optional_timeout is None
+```
+
+Environment variables work normally with uninitialized settings:
+
+```python
+os.environ["REQUIRED_API_KEY"] = "secret123"
+assert MySettings.required_api_key == "secret123"
+```
+
+For stricter validation, use `set_raise_on_uninitialized(True)` to make accessing uninitialized settings raise `AttributeError`:
+
+```python
+MySettings.set_raise_on_uninitialized(True)
+MySettings.required_api_key  # Raises AttributeError if not in environment
+```
+
 ### Working with Credentials and .env Files
 
 For sensitive settings like API keys or passwords, use `Optional` types with no default:
