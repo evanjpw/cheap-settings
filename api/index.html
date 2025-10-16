@@ -2025,6 +2025,8 @@ assert MySettings.required_api_key == &quot;secret123&quot;
 <pre><code class="language-python">MySettings.set_raise_on_uninitialized(True)
 MySettings.required_api_key  # Raises AttributeError if not in environment
 </code></pre>
+<p><strong>Note</strong>: settings with <code>Optional</code> types (or unions with <code>None</code>), <em>never</em> raise when uninitialized.
+They always return <code>None</code> even if you <code>set_raise_on_uninitialized(True)</code>.</p>
 <h3 id="working-with-credentials-and-env-files">Working with Credentials and .env Files</h3>
 <p>For sensitive settings like API keys or passwords, use <code>Optional</code> types with no default:</p>
 <pre><code class="language-python">class Settings(CheapSettings):
