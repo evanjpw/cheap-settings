@@ -117,7 +117,7 @@ assert TestSettings.host == "example.com"  # CLI overrides env vars and defaults
 
 **Settings Without Initializers**
 
-You can define settings with type annotations but no default values - see [the documentation](https://evanjpw.github.io/cheap-settings/) for details.
+You can define settings with type annotations but no default values - see [the documentation](https://evanjpw.github.io/cheap-settings/api/#settings-without-initializers) for details.
 
 **User Request**: Pickling
 

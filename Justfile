@@ -52,7 +52,10 @@ release-prep: check clean build
     @echo "✓ Code formatted and linted"
     @echo "✓ Build artifacts cleaned"
     @echo "✓ Package built"
-    @echo "Ready to publish! Run: just publish"
+    @echo ""
+    @echo "Don't forget to:"
+    @echo "• Deploy docs: just deploy-docs"
+    @echo "• Then publish: just publish"
 
 bump *ARGS:
     uvx bump-my-version {{ARGS}}

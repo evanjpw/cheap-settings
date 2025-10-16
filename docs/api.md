@@ -118,6 +118,9 @@ MySettings.set_raise_on_uninitialized(True)
 MySettings.required_api_key  # Raises AttributeError if not in environment
 ```
 
+**Note**: settings with `Optional` types (or unions with `None`), _never_ raise when uninitialized.
+They always return `None` even if you `set_raise_on_uninitialized(True)`.
+
 ### Working with Credentials and .env Files
 
 For sensitive settings like API keys or passwords, use `Optional` types with no default:
