@@ -107,6 +107,27 @@ class TestCommandLineTypes:
         assert MySettings.production is False
         assert MySettings.secure is False
 
+    def test_boolean_both_flags_always_available(self, monkeypatch):
+        """Test that both --flag and --no-flag are always available for non-Optional bools"""
+
+        class MySettings(CheapSettings):
+            debug: bool = False
+            secure: bool = True
+
+        # Set environment variables to opposite of defaults
+        monkeypatch.setenv("DEBUG", "true")
+        monkeypatch.setenv("SECURE", "false")
+
+        # Should be able to override env vars in either direction
+        MySettings.set_config_from_command_line(args=["--no-debug", "--secure"])
+        assert MySettings.debug is False  # CLI overrides env
+        assert MySettings.secure is True  # CLI overrides env
+
+        # Test the other direction
+        MySettings.set_config_from_command_line(args=["--debug", "--no-secure"])
+        assert MySettings.debug is True
+        assert MySettings.secure is False
+
     def test_boolean_with_value_true(self):
         """Test boolean with explicit 'true' value"""
 

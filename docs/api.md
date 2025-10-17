@@ -52,11 +52,16 @@ class Settings(CheapSettings):
 
 Boolean handling differs based on whether the type is Optional:
 
-- **Non-Optional booleans** (`bool = False/True`) become flags:
+- **Non-Optional booleans** (`bool = False/True`) create both positive and negative flags:
   ```python
   class Settings(CheapSettings):
-      debug: bool = False    # --debug (sets to True)
-      secure: bool = True    # --no-secure (sets to False)
+      debug: bool = False    # Creates both --debug and --no-debug
+      secure: bool = True    # Creates both --secure and --no-secure
+  ```
+  This allows you to override environment variables in either direction:
+  ```bash
+  # Environment: DEBUG=true, SECURE=false
+  python app.py --no-debug --secure  # Override both values
   ```
 
 - **Optional booleans** (`Optional[bool]`) accept explicit values:
@@ -65,11 +70,7 @@ Boolean handling differs based on whether the type is Optional:
       debug: Optional[bool] = None    # --debug true/false/1/0/yes/no
   ```
 
-Use Optional booleans when you need to override environment variables with explicit CLI values:
-```bash
-# Environment: DEBUG=true
-python app.py --debug false  # Only works with Optional[bool]
-```
+Both approaches allow overriding environment variables, but non-Optional booleans provide a cleaner flag-based interface.
 
 ### Inheritance
 

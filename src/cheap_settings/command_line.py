@@ -93,13 +93,23 @@ def _get_arg_parser(
                 argument_type = _bool_str_to_bool
             elif argument_default is None:
                 argument_type = _bool_str_to_bool
-            elif argument_default is False:
-                argument_action = "store_true"
-            elif argument_default is True:  # No, this expression cannot be simplified
-                argument_name = "no-" + argument_name
-                argument_action = "store_false"
             else:
-                argument_type = _bool_str_to_bool
+                # For non-Optional bools, create both --setting and --no-setting flags
+                # Add the positive flag (--setting)
+                parser.add_argument(
+                    "--" + argument_name,
+                    default=argument_default,
+                    action="store_true",
+                    dest=name,
+                )
+                # Add the negative flag (--no-setting)
+                parser.add_argument(
+                    "--no-" + argument_name,
+                    default=argument_default,
+                    action="store_false",
+                    dest=name,
+                )
+                continue  # Skip the normal argument adding logic
         elif argument_type in (dict, list):
             # TODO: Add support for dict and list types from the command line.
             #  This will likely involve parsing JSON strings.
