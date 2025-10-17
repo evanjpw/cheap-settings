@@ -2015,11 +2015,15 @@ StaticSettings.host  # Just a regular class attribute
 <p>Boolean handling differs based on whether the type is Optional:</p>
 <ul>
 <li>
-<p><strong>Non-Optional booleans</strong> (<code>bool = False/True</code>) become flags:
+<p><strong>Non-Optional booleans</strong> (<code>bool = False/True</code>) create both positive and negative flags:
   <code>python
   class Settings(CheapSettings):
-      debug: bool = False    # --debug (sets to True)
-      secure: bool = True    # --no-secure (sets to False)</code></p>
+      debug: bool = False    # Creates both --debug and --no-debug
+      secure: bool = True    # Creates both --secure and --no-secure</code>
+  This allows you to override environment variables in either direction:
+  <code>bash
+  # Environment: DEBUG=true, SECURE=false
+  python app.py --no-debug --secure  # Override both values</code></p>
 </li>
 <li>
 <p><strong>Optional booleans</strong> (<code>Optional[bool]</code>) accept explicit values:
@@ -2028,10 +2032,7 @@ StaticSettings.host  # Just a regular class attribute
       debug: Optional[bool] = None    # --debug true/false/1/0/yes/no</code></p>
 </li>
 </ul>
-<p>Use Optional booleans when you need to override environment variables with explicit CLI values:</p>
-<pre><code class="language-bash"># Environment: DEBUG=true
-python app.py --debug false  # Only works with Optional[bool]
-</code></pre>
+<p>Both approaches allow overriding environment variables, but non-Optional booleans provide a cleaner flag-based interface.</p>
 <h3 id="inheritance">Inheritance</h3>
 <p>Settings classes support inheritance. Child classes inherit all settings from parent classes and can override them:</p>
 <pre><code class="language-python">class BaseSettings(CheapSettings):
