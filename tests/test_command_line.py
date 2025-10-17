@@ -441,7 +441,7 @@ class TestIntegration:
         class MySettings(CheapSettings):
             host: str = "localhost"
             port: Optional[int] = None
-            debug: bool = False
+            debug: Optional[bool] = False  # Use Optional to accept explicit values
             timeout: int = 30
 
         # Set some env vars

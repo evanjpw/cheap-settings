@@ -22,6 +22,17 @@ def _bool_str_to_bool(value: str) -> bool:
         raise ValueError(f"{value} is not a valid boolean value")
 
 
+def _optional_type_converter(inner_type):
+    """Create a converter function for Optional types that handles 'none'."""
+
+    def converter(value: str):
+        if value.lower() == "none":
+            return None
+        return inner_type(value)
+
+    return converter
+
+
 def _get_arg_parser(
     config_instance, parser: Optional[argparse.ArgumentParser] = None
 ) -> argparse.ArgumentParser:
@@ -63,18 +74,24 @@ def _get_arg_parser(
             argument_type = type(argument_default) or str
 
         # Handle Optional/Union types for argparse
-
+        is_optional = False
         origin = get_origin(argument_type)
         if origin is not None:
             # For Optional/Union types, extract the non-None type
             args = get_args(argument_type)
-            for arg in args:
-                if arg is not type(None):
-                    argument_type = arg
-                    break
+            has_none = type(None) in args
+            if has_none:
+                is_optional = True
+                for arg in args:
+                    if arg is not type(None):
+                        argument_type = arg
+                        break
 
         if argument_type is bool:
-            if argument_default is None:
+            if is_optional:
+                # Optional bools always accept explicit values
+                argument_type = _bool_str_to_bool
+            elif argument_default is None:
                 argument_type = _bool_str_to_bool
             elif argument_default is False:
                 argument_action = "store_true"
@@ -87,6 +104,10 @@ def _get_arg_parser(
             # TODO: Add support for dict and list types from the command line.
             #  This will likely involve parsing JSON strings.
             continue
+
+        # Wrap the type converter for Optional types to handle "none"
+        if is_optional and argument_type is not _bool_str_to_bool:
+            argument_type = _optional_type_converter(argument_type)
 
         argument_name = "--" + argument_name
 

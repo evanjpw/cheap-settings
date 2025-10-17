@@ -48,6 +48,29 @@ class Settings(CheapSettings):
     enable_cache: bool = False          # --enable-cache / --no-enable-cache
 ```
 
+#### Boolean Command Line Behavior
+
+Boolean handling differs based on whether the type is Optional:
+
+- **Non-Optional booleans** (`bool = False/True`) become flags:
+  ```python
+  class Settings(CheapSettings):
+      debug: bool = False    # --debug (sets to True)
+      secure: bool = True    # --no-secure (sets to False)
+  ```
+
+- **Optional booleans** (`Optional[bool]`) accept explicit values:
+  ```python
+  class Settings(CheapSettings):
+      debug: Optional[bool] = None    # --debug true/false/1/0/yes/no
+  ```
+
+Use Optional booleans when you need to override environment variables with explicit CLI values:
+```bash
+# Environment: DEBUG=true
+python app.py --debug false  # Only works with Optional[bool]
+```
+
 ### Inheritance
 
 Settings classes support inheritance. Child classes inherit all settings from parent classes and can override them:
