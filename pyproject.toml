@@ -41,8 +41,7 @@ homepage = "https://github.com/evanjpw/cheap-settings"
 repository = "https://github.com/evanjpw/cheap-settings"
 documentation = "https://evanjpw.github.io/cheap-settings/"
 issues = "https://github.com/evanjpw/cheap-settings/issues"
-# TODO: add a changelog
-# changelog = "https://github.com/evanjpw/cheap-settings/blob/master/CHANGELOG.md"
+changelog = "https://github.com/evanjpw/cheap-settings/blob/master/CHANGELOG.md"
 
 # TODO: Should probably use `[dependency-groups]` & `dev`, `docs`, & `test`, but who has time for that?
 [project.optional-dependencies]
