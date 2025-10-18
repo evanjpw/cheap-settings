@@ -153,7 +153,7 @@ class TestPickleSupport:
         class LocalSettings(CheapSettings):
             value: str = "local"
 
-        with pytest.raises(AttributeError, match="Can't pickle local object"):
+        with pytest.raises(AttributeError, match="Can't (pickle|get) local object"):
             pickle.dumps(LocalSettings)
 
     @pytest.mark.parametrize(
