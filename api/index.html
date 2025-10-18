@@ -445,6 +445,48 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#extended-type-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Extended Type Examples
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Extended Type Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#date-and-time-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Date and Time Types
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#decimal-for-financial-precision" class="md-nav__link">
+    <span class="md-ellipsis">
+      Decimal for Financial Precision
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uuid-for-unique-identifiers" class="md-nav__link">
+    <span class="md-ellipsis">
+      UUID for Unique Identifiers
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#environment-variable-naming" class="md-nav__link">
     <span class="md-ellipsis">
       Environment Variable Naming
@@ -692,6 +734,48 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#extended-type-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Extended Type Examples
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Extended Type Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#date-and-time-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Date and Time Types
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#decimal-for-financial-precision" class="md-nav__link">
+    <span class="md-ellipsis">
+      Decimal for Financial Precision
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uuid-for-unique-identifiers" class="md-nav__link">
+    <span class="md-ellipsis">
+      UUID for Unique Identifiers
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#environment-variable-naming" class="md-nav__link">
     <span class="md-ellipsis">
       Environment Variable Naming
@@ -832,8 +916,8 @@
 <details class="environment-variables-will-override-the-defaults" open>
   <summary>Environment variables will override the defaults</summary>
   <p>HOST=example.com PORT=3000 DEBUG=true python myapp.py</p>
-</details>        <p>Supports all basic Python types plus Optional and Union types (or Path
-types). Complex types (list, dict) are parsed from JSON strings.</p>
+</details>        <p>Supports all basic Python types plus datetime, date, time, Decimal, UUID,
+Path, Optional and Union types. Complex types (list, dict) are parsed from JSON strings.</p>
 
 
 
@@ -844,20 +928,7 @@ types). Complex types (list, dict) are parsed from JSON strings.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/cheap_settings/cheap_settings.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">423</span>
-<span class="normal">424</span>
-<span class="normal">425</span>
-<span class="normal">426</span>
-<span class="normal">427</span>
-<span class="normal">428</span>
-<span class="normal">429</span>
-<span class="normal">430</span>
-<span class="normal">431</span>
-<span class="normal">432</span>
-<span class="normal">433</span>
-<span class="normal">434</span>
-<span class="normal">435</span>
-<span class="normal">436</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">436</span>
 <span class="normal">437</span>
 <span class="normal">438</span>
 <span class="normal">439</span>
@@ -1040,7 +1111,20 @@ types). Complex types (list, dict) are parsed from JSON strings.</p>
 <span class="normal">616</span>
 <span class="normal">617</span>
 <span class="normal">618</span>
-<span class="normal">619</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">CheapSettings</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">MetaCheapSettings</span><span class="p">):</span>
+<span class="normal">619</span>
+<span class="normal">620</span>
+<span class="normal">621</span>
+<span class="normal">622</span>
+<span class="normal">623</span>
+<span class="normal">624</span>
+<span class="normal">625</span>
+<span class="normal">626</span>
+<span class="normal">627</span>
+<span class="normal">628</span>
+<span class="normal">629</span>
+<span class="normal">630</span>
+<span class="normal">631</span>
+<span class="normal">632</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">CheapSettings</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">MetaCheapSettings</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for simple, environment-variable-driven configuration.</span>
 
 <span class="sd">    Subclass this and define your settings as typed class attributes:</span>
@@ -1053,8 +1137,8 @@ types). Complex types (list, dict) are parsed from JSON strings.</p>
 <span class="sd">    Environment variables will override the defaults:</span>
 <span class="sd">        HOST=example.com PORT=3000 DEBUG=true python myapp.py</span>
 
-<span class="sd">    Supports all basic Python types plus Optional and Union types (or Path</span>
-<span class="sd">    types). Complex types (list, dict) are parsed from JSON strings.</span>
+<span class="sd">    Supports all basic Python types plus datetime, date, time, Decimal, UUID,</span>
+<span class="sd">    Path, Optional and Union types. Complex types (list, dict) are parsed from JSON strings.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
@@ -1269,15 +1353,15 @@ types). Complex types (list, dict) are parsed from JSON strings.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/cheap_settings/cheap_settings.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">440</span>
-<span class="normal">441</span>
-<span class="normal">442</span>
-<span class="normal">443</span>
-<span class="normal">444</span>
-<span class="normal">445</span>
-<span class="normal">446</span>
-<span class="normal">447</span>
-<span class="normal">448</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">453</span>
+<span class="normal">454</span>
+<span class="normal">455</span>
+<span class="normal">456</span>
+<span class="normal">457</span>
+<span class="normal">458</span>
+<span class="normal">459</span>
+<span class="normal">460</span>
+<span class="normal">461</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Allow instances to access class-level settings.&quot;&quot;&quot;</span>
     <span class="c1"># First try regular instance attribute access</span>
     <span class="k">try</span><span class="p">:</span>
@@ -1308,11 +1392,11 @@ types). Complex types (list, dict) are parsed from JSON strings.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/cheap_settings/cheap_settings.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">468</span>
-<span class="normal">469</span>
-<span class="normal">470</span>
-<span class="normal">471</span>
-<span class="normal">472</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">481</span>
+<span class="normal">482</span>
+<span class="normal">483</span>
+<span class="normal">484</span>
+<span class="normal">485</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the state for pickling - returns a dict of all settings.&quot;&quot;&quot;</span>
     <span class="c1"># For CheapSettings, we don&#39;t actually have instance state</span>
     <span class="c1"># All settings are class-level, so we just return an empty dict</span>
@@ -1339,23 +1423,23 @@ types). Complex types (list, dict) are parsed from JSON strings.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/cheap_settings/cheap_settings.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">450</span>
-<span class="normal">451</span>
-<span class="normal">452</span>
-<span class="normal">453</span>
-<span class="normal">454</span>
-<span class="normal">455</span>
-<span class="normal">456</span>
-<span class="normal">457</span>
-<span class="normal">458</span>
-<span class="normal">459</span>
-<span class="normal">460</span>
-<span class="normal">461</span>
-<span class="normal">462</span>
-<span class="normal">463</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">463</span>
 <span class="normal">464</span>
 <span class="normal">465</span>
-<span class="normal">466</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">__reduce__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="normal">466</span>
+<span class="normal">467</span>
+<span class="normal">468</span>
+<span class="normal">469</span>
+<span class="normal">470</span>
+<span class="normal">471</span>
+<span class="normal">472</span>
+<span class="normal">473</span>
+<span class="normal">474</span>
+<span class="normal">475</span>
+<span class="normal">476</span>
+<span class="normal">477</span>
+<span class="normal">478</span>
+<span class="normal">479</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">__reduce__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Enable pickling by returning class and state information.&quot;&quot;&quot;</span>
     <span class="c1"># Try to return the class directly if it can be imported</span>
     <span class="k">try</span><span class="p">:</span>
@@ -1394,11 +1478,11 @@ types). Complex types (list, dict) are parsed from JSON strings.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/cheap_settings/cheap_settings.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">474</span>
-<span class="normal">475</span>
-<span class="normal">476</span>
-<span class="normal">477</span>
-<span class="normal">478</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">487</span>
+<span class="normal">488</span>
+<span class="normal">489</span>
+<span class="normal">490</span>
+<span class="normal">491</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Restore state when unpickling.&quot;&quot;&quot;</span>
     <span class="c1"># Nothing to restore for CheapSettings instances</span>
     <span class="c1"># All settings are accessed from the class level</span>
@@ -1472,20 +1556,7 @@ hasattr(EnvOnly, 'port')  # False (not in env)</p>
 
             <details class="quote">
               <summary>Source code in <code>src/cheap_settings/cheap_settings.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">531</span>
-<span class="normal">532</span>
-<span class="normal">533</span>
-<span class="normal">534</span>
-<span class="normal">535</span>
-<span class="normal">536</span>
-<span class="normal">537</span>
-<span class="normal">538</span>
-<span class="normal">539</span>
-<span class="normal">540</span>
-<span class="normal">541</span>
-<span class="normal">542</span>
-<span class="normal">543</span>
-<span class="normal">544</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">544</span>
 <span class="normal">545</span>
 <span class="normal">546</span>
 <span class="normal">547</span>
@@ -1511,7 +1582,20 @@ hasattr(EnvOnly, 'port')  # False (not in env)</p>
 <span class="normal">567</span>
 <span class="normal">568</span>
 <span class="normal">569</span>
-<span class="normal">570</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">570</span>
+<span class="normal">571</span>
+<span class="normal">572</span>
+<span class="normal">573</span>
+<span class="normal">574</span>
+<span class="normal">575</span>
+<span class="normal">576</span>
+<span class="normal">577</span>
+<span class="normal">578</span>
+<span class="normal">579</span>
+<span class="normal">580</span>
+<span class="normal">581</span>
+<span class="normal">582</span>
+<span class="normal">583</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">from_env</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a static snapshot with only values from environment variables.</span>
 
@@ -1583,20 +1667,7 @@ instance of argparse.Namespace). Can raise various exceptions.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/cheap_settings/cheap_settings.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">591</span>
-<span class="normal">592</span>
-<span class="normal">593</span>
-<span class="normal">594</span>
-<span class="normal">595</span>
-<span class="normal">596</span>
-<span class="normal">597</span>
-<span class="normal">598</span>
-<span class="normal">599</span>
-<span class="normal">600</span>
-<span class="normal">601</span>
-<span class="normal">602</span>
-<span class="normal">603</span>
-<span class="normal">604</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">604</span>
 <span class="normal">605</span>
 <span class="normal">606</span>
 <span class="normal">607</span>
@@ -1611,7 +1682,20 @@ instance of argparse.Namespace). Can raise various exceptions.</p>
 <span class="normal">616</span>
 <span class="normal">617</span>
 <span class="normal">618</span>
-<span class="normal">619</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">619</span>
+<span class="normal">620</span>
+<span class="normal">621</span>
+<span class="normal">622</span>
+<span class="normal">623</span>
+<span class="normal">624</span>
+<span class="normal">625</span>
+<span class="normal">626</span>
+<span class="normal">627</span>
+<span class="normal">628</span>
+<span class="normal">629</span>
+<span class="normal">630</span>
+<span class="normal">631</span>
+<span class="normal">632</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">set_config_from_command_line</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">arg_parser</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates command line arguments (as flags) that correspond to the settings, &amp; parses them, setting the</span>
 <span class="sd">    config values based on them. Settings overridden by command line arguments take precedence over any</span>
@@ -1712,24 +1796,24 @@ MySettings.required_setting  # Raises AttributeError</p>
 
             <details class="quote">
               <summary>Source code in <code>src/cheap_settings/cheap_settings.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">572</span>
-<span class="normal">573</span>
-<span class="normal">574</span>
-<span class="normal">575</span>
-<span class="normal">576</span>
-<span class="normal">577</span>
-<span class="normal">578</span>
-<span class="normal">579</span>
-<span class="normal">580</span>
-<span class="normal">581</span>
-<span class="normal">582</span>
-<span class="normal">583</span>
-<span class="normal">584</span>
-<span class="normal">585</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">585</span>
 <span class="normal">586</span>
 <span class="normal">587</span>
 <span class="normal">588</span>
-<span class="normal">589</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">589</span>
+<span class="normal">590</span>
+<span class="normal">591</span>
+<span class="normal">592</span>
+<span class="normal">593</span>
+<span class="normal">594</span>
+<span class="normal">595</span>
+<span class="normal">596</span>
+<span class="normal">597</span>
+<span class="normal">598</span>
+<span class="normal">599</span>
+<span class="normal">600</span>
+<span class="normal">601</span>
+<span class="normal">602</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">set_raise_on_uninitialized</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Set whether to raise an error when accessing uninitialized settings.</span>
 
@@ -1817,20 +1901,7 @@ StaticSettings.host  # Just a regular class attribute
 
             <details class="quote">
               <summary>Source code in <code>src/cheap_settings/cheap_settings.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">480</span>
-<span class="normal">481</span>
-<span class="normal">482</span>
-<span class="normal">483</span>
-<span class="normal">484</span>
-<span class="normal">485</span>
-<span class="normal">486</span>
-<span class="normal">487</span>
-<span class="normal">488</span>
-<span class="normal">489</span>
-<span class="normal">490</span>
-<span class="normal">491</span>
-<span class="normal">492</span>
-<span class="normal">493</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">493</span>
 <span class="normal">494</span>
 <span class="normal">495</span>
 <span class="normal">496</span>
@@ -1866,7 +1937,20 @@ StaticSettings.host  # Just a regular class attribute
 <span class="normal">526</span>
 <span class="normal">527</span>
 <span class="normal">528</span>
-<span class="normal">529</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">529</span>
+<span class="normal">530</span>
+<span class="normal">531</span>
+<span class="normal">532</span>
+<span class="normal">533</span>
+<span class="normal">534</span>
+<span class="normal">535</span>
+<span class="normal">536</span>
+<span class="normal">537</span>
+<span class="normal">538</span>
+<span class="normal">539</span>
+<span class="normal">540</span>
+<span class="normal">541</span>
+<span class="normal">542</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">to_static</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a static snapshot of current settings as a regular class.</span>
 <span class="sd">    The returned class is a regular Python class without any dynamic behavior.</span>
@@ -1972,6 +2056,36 @@ StaticSettings.host  # Just a regular class attribute
 <td>Converted with <code>Path()</code></td>
 </tr>
 <tr>
+<td><code>datetime</code></td>
+<td><code>datetime(2024, 12, 25, 15, 30)</code></td>
+<td><code>VALUE="2024-12-25T15:30:00"</code></td>
+<td>ISO format (fromisoformat)</td>
+</tr>
+<tr>
+<td><code>date</code></td>
+<td><code>date(2024, 12, 25)</code></td>
+<td><code>VALUE="2024-12-25"</code></td>
+<td>ISO format (YYYY-MM-DD)</td>
+</tr>
+<tr>
+<td><code>time</code></td>
+<td><code>time(15, 30, 45)</code></td>
+<td><code>VALUE="15:30:45"</code></td>
+<td>ISO format (HH:MM:SS)</td>
+</tr>
+<tr>
+<td><code>Decimal</code></td>
+<td><code>Decimal("99.99")</code></td>
+<td><code>VALUE="99.99"</code></td>
+<td>Preserves precision</td>
+</tr>
+<tr>
+<td><code>UUID</code></td>
+<td><code>UUID("...")</code></td>
+<td><code>VALUE="550e8400-..."</code></td>
+<td>With/without hyphens</td>
+</tr>
+<tr>
 <td><code>list</code></td>
 <td><code>[1, 2, 3]</code></td>
 <td><code>VALUE='[1, 2, 3]'</code></td>
@@ -1997,6 +2111,47 @@ StaticSettings.host  # Just a regular class attribute
 </tr>
 </tbody>
 </table>
+<h3 id="extended-type-examples">Extended Type Examples</h3>
+<h4 id="date-and-time-types">Date and Time Types</h4>
+<pre><code class="language-python">from datetime import datetime, date, time
+from cheap_settings import CheapSettings
+
+class TimeSettings(CheapSettings):
+    created_at: datetime = datetime(2024, 1, 1)
+    expiry_date: date = date(2024, 12, 31)
+    backup_time: time = time(3, 0, 0)
+
+# Environment variables:
+# CREATED_AT=&quot;2024-12-25T15:30:45.123456&quot;  # With microseconds
+# CREATED_AT=&quot;2024-12-25T15:30:45+05:30&quot;   # With timezone
+# EXPIRY_DATE=&quot;2025-01-01&quot;
+# BACKUP_TIME=&quot;02:30:00&quot;
+</code></pre>
+<h4 id="decimal-for-financial-precision">Decimal for Financial Precision</h4>
+<pre><code class="language-python">from decimal import Decimal
+
+class PricingSettings(CheapSettings):
+    product_price: Decimal = Decimal(&quot;99.99&quot;)
+    tax_rate: Decimal = Decimal(&quot;0.0825&quot;)  # 8.25%
+
+# Preserves exact decimal precision
+# PRODUCT_PRICE=&quot;149.99&quot;
+# TAX_RATE=&quot;0.0925&quot;
+
+# Calculate with precision
+tax = PricingSettings.product_price * PricingSettings.tax_rate
+</code></pre>
+<h4 id="uuid-for-unique-identifiers">UUID for Unique Identifiers</h4>
+<pre><code class="language-python">from uuid import UUID
+
+class ServiceSettings(CheapSettings):
+    instance_id: UUID = UUID(&quot;00000000-0000-0000-0000-000000000000&quot;)
+
+# Accepts multiple formats:
+# INSTANCE_ID=&quot;550e8400-e29b-41d4-a716-446655440000&quot;  # Standard
+# INSTANCE_ID=&quot;550e8400e29b41d4a716446655440000&quot;      # No hyphens
+# INSTANCE_ID=&quot;{550e8400-e29b-41d4-a716-446655440000}&quot; # With braces
+</code></pre>
 <h3 id="environment-variable-naming">Environment Variable Naming</h3>
 <p>Environment variables are the uppercase version of the attribute name:</p>
 <pre><code class="language-python">class Settings(CheapSettings):
