@@ -1,6 +1,9 @@
 import argparse
 import sys
+from datetime import date, datetime, time
+from decimal import Decimal
 from typing import Optional, Sequence, get_args, get_origin
+from uuid import UUID
 
 # TODO: Add dict/list support to command_line.py using the existing JSON parsing logic.
 
@@ -114,6 +117,15 @@ def _get_arg_parser(
             # TODO: Add support for dict and list types from the command line.
             #  This will likely involve parsing JSON strings.
             continue
+        elif argument_type in (datetime, date, time):
+            # Wrap datetime types with fromisoformat converter
+            argument_type = argument_type.fromisoformat
+        elif argument_type is UUID:
+            # UUID constructor works as type converter
+            pass
+        elif argument_type is Decimal:
+            # Decimal constructor works as type converter
+            pass
 
         # Wrap the type converter for Optional types to handle "none"
         if is_optional and argument_type is not _bool_str_to_bool:

@@ -2,8 +2,11 @@ import importlib
 import json
 import os
 import sys
+from datetime import date, datetime, time
+from decimal import Decimal
 from pathlib import Path
 from typing import Any, Dict, Union, get_args, get_origin
+from uuid import UUID
 
 from .command_line import _bool_str_to_bool, parse_command_line_arguments
 
@@ -154,6 +157,16 @@ def _convert_value_to_type(value: Any, to_type: type, name: str) -> Any:
         return _parse_json(value, dict, name)
     elif to_type is Path:
         return Path(value)
+    elif to_type is Decimal:
+        return Decimal(value)
+    elif to_type is UUID:
+        return UUID(value)
+    elif to_type is date:
+        return date.fromisoformat(value)
+    elif to_type is datetime:
+        return datetime.fromisoformat(value)
+    elif to_type is time:
+        return time.fromisoformat(value)
 
     # If we get here, we don't know how to handle this type
     return value
@@ -433,8 +446,8 @@ class CheapSettings(metaclass=MetaCheapSettings):
     Environment variables will override the defaults:
         HOST=example.com PORT=3000 DEBUG=true python myapp.py
 
-    Supports all basic Python types plus Optional and Union types (or Path
-    types). Complex types (list, dict) are parsed from JSON strings.
+    Supports all basic Python types plus datetime, date, time, Decimal, UUID,
+    Path, Optional and Union types. Complex types (list, dict) are parsed from JSON strings.
     """
 
     def __getattribute__(self, name):
