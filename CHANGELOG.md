@@ -11,9 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Support for datetime, date, time types (ISO format)
-- Support for Decimal type (preserves precision for financial calculations)
-- Support for UUID type (multiple formats accepted)
+- Support for `datetime`, `date`, and `time` types using ISO format strings
+- Support for `Decimal` type for precise financial calculations
+- Support for `UUID` type (accepts multiple formats: standard, no hyphens, with braces)
+- Command line argument support for all new extended types
 
 ## [1.2.2] - 2025-10-17
 
@@ -32,17 +33,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Settings can now be added without initializers
 
+### Fixed
+- Name mangling used to prevent conflicts between user settings and internal flags
+
 ## [1.1.0] - 2025-10-12
 
 ### Added
 
-- Added the `from_env()` method to create static copies of the settings
+- `from_env()` class method returns settings that are only sourced from environment variables
 
 ## [1.0.0] - 2025-10-12
 
 ### Added
 
+- Initial stable release with core functionality
 - Improved error handling
+- Comprehensive JSON error messages
 
 ### Changed
 
@@ -50,3 +56,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Previous Releases
 For changes before v1.0.0, see the [commit history](https://github.com/evanjpw/cheap-settings/commits/main).
+
+### Added
+- Support for basic types: `str`, `int`, `float`, `bool`, `pathlib.Path`
+- Support for `Optional` and `Union` types
+- Support for `list` and `dict` types via JSON parsing
+- Command line argument generation and parsing
+- Type inference from default values
+- Inheritance support for settings classes
+- Pickle support for Ray compatibility
+- `to_static()` method for performance-critical code
+
+### Fixed
+- Various stability improvements and bug fixes
