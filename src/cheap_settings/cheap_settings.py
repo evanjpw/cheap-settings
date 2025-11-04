@@ -168,6 +168,19 @@ def _convert_value_to_type(value: Any, to_type: type, name: str) -> Any:
     elif to_type is time:
         return time.fromisoformat(value)
 
+    # Check for custom types with from_string class method (or custom method name)
+    # TODO: Support custom method names via __cheap_settings__ configuration
+    method_name = "from_string"  # Default, will be configurable later
+
+    if hasattr(to_type, method_name):
+        from_string_attr = getattr(to_type, method_name, None)
+        # Make sure it's actually a class method (or static method) by checking if we can call it
+        try:
+            return from_string_attr(value)
+        except TypeError:
+            # If it fails, it might be an instance method, just fall through
+            pass
+
     # If we get here, we don't know how to handle this type
     return value
 

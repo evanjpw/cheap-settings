@@ -8,6 +8,20 @@
       show_root_toc_entry: false
       heading_level: 3
 
+### Reserved Names
+
+The attribute name `__cheap_settings__` is reserved for future configuration of cheap-settings behavior. Do not use this name for your settings.
+
+```python
+# ❌ Don't do this
+class MySettings(CheapSettings):
+    __cheap_settings__: dict = {}  # Reserved!
+
+# ✅ Do this instead
+class MySettings(CheapSettings):
+    my_settings: dict = {}
+```
+
 ## Type Support
 
 `cheap-settings` automatically converts environment variable strings to the appropriate Python types based on type annotations.
@@ -28,6 +42,7 @@
 | `UUID` | `UUID("...")` | `VALUE="550e8400-..."` | With/without hyphens |
 | `list` | `[1, 2, 3]` | `VALUE='[1, 2, 3]'` | Parsed as JSON |
 | `dict` | `{"key": "value"}` | `VALUE='{"key": "value"}'` | Parsed as JSON |
+| Custom types | Any type with `from_string()` | `VALUE="custom format"` | Calls `Type.from_string(value)` |
 | `Optional[T]` | `None` or `T` | `VALUE="none"` or valid `T` | Special "none" string sets to None |
 | `Union[T, U]` | `T` or `U` | Valid for either type | Tries each type in order |
 
@@ -80,6 +95,34 @@ class ServiceSettings(CheapSettings):
 # INSTANCE_ID="550e8400-e29b-41d4-a716-446655440000"  # Standard
 # INSTANCE_ID="550e8400e29b41d4a716446655440000"      # No hyphens
 # INSTANCE_ID="{550e8400-e29b-41d4-a716-446655440000}" # With braces
+```
+
+#### Custom Types with `from_string()`
+
+Any custom type that implements a `from_string()` class method will work automatically:
+
+```python
+class Temperature:
+    def __init__(self, celsius: float):
+        self.celsius = celsius
+
+    @classmethod
+    def from_string(cls, value: str) -> 'Temperature':
+        if value.endswith('F'):
+            # Convert Fahrenheit to Celsius
+            fahrenheit = float(value[:-1])
+            celsius = (fahrenheit - 32) * 5/9
+            return cls(celsius)
+        else:
+            # Assume Celsius
+            return cls(float(value))
+
+class Settings(CheapSettings):
+    room_temp: Temperature = Temperature(20.0)
+
+# Environment variables work automatically:
+# ROOM_TEMP="72F"  # Converts to Temperature(22.2)
+# ROOM_TEMP="25"   # Converts to Temperature(25.0)
 ```
 
 ### Environment Variable Naming

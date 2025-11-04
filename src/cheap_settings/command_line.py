@@ -126,6 +126,9 @@ def _get_arg_parser(
         elif argument_type is Decimal:
             # Decimal constructor works as type converter
             pass
+        elif hasattr(argument_type, "from_string"):
+            # Custom types with from_string class method
+            argument_type = argument_type.from_string
 
         # Wrap the type converter for Optional types to handle "none"
         if is_optional and argument_type is not _bool_str_to_bool:

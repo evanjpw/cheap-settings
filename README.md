@@ -210,8 +210,8 @@ Visit [the documentation site](https://evanjpw.github.io/cheap-settings/) on Git
 ## TBD - Features to be Added
 
 * Selectable different configurations for different environments (for example, DEV, STAGING, PROD)
-* Expanded type support: custom types with `from_string()` methods
 * Custom validators & converters for field-level validation and custom conversion functions
+* Configuration of cheap-settings behavior via `__cheap_settings__` attribute
 
 ## Alternatives
 
