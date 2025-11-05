@@ -209,6 +209,7 @@ Visit [the documentation site](https://evanjpw.github.io/cheap-settings/) on Git
 
 ## TBD - Features to be Added
 
+* Python 3.14 support (requires adapting to PEP 649 lazy annotations)
 * Selectable different configurations for different environments (for example, DEV, STAGING, PROD)
 * Custom validators & converters for field-level validation and custom conversion functions
 * Configuration of cheap-settings behavior via `__cheap_settings__` attribute
