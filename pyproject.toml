@@ -1,6 +1,6 @@
 [project]
 name = "cheap-settings"
-version = "1.4.0-alpha"
+version = "1.4.0"
 description = "A lightweight, low footprint settings system"
 readme = "README.md"
 authors =[

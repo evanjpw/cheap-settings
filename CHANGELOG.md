@@ -7,9 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.0] - 2025-11-17
+
 ### Added
 - Support for custom types with `from_string()` class methods
-- Python 3.14 support in CI testing matrix
 - Reserved `__cheap_settings__` attribute namespace for future configuration
 
 ### Changed
